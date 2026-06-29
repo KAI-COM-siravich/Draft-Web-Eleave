@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Leave Web App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700;800&display=swap');
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #040833;
+            /* Added a subtle texture/gradient similar to the PowerApps background */
+            background-image: radial-gradient(circle at center, #0a1254 0%, #040833 100%);
+            color: white;
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="w-screen h-screen flex flex-col relative">
+
+    <!-- Top Header Area -->
+    <div class="flex justify-between w-full p-8 absolute top-0 left-0 right-0">
+        <!-- Top Left: Profile -->
+        <div class="flex flex-col items-center">
+            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center border-2 border-white shadow-lg overflow-hidden">
+                <i class="fa-regular fa-user text-[45px] text-[#040833] mt-2"></i>
+            </div>
+            <span class="mt-2 text-lg tracking-wide">Netcube AutoSync</span>
+        </div>
+        
+        <!-- Top Center: Netcube Logo -->
+        <div class="flex items-center gap-3 absolute left-1/2 -translate-x-1/2 top-8">
+            <div class="w-14 h-14 bg-gradient-to-br from-[#00d2ff] to-[#3a7bd5] rounded-lg flex items-center justify-center text-white font-black text-3xl shadow-lg border border-white/20">
+                NC
+            </div>
+            <div class="flex flex-col leading-none">
+                <span class="font-bold text-[26px] tracking-wide">net cube</span>
+                <span class="text-[11px] text-gray-300 font-medium">Innovation and Excellence</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Center Content Area (C LEAVE and Buttons) -->
+    <div class="w-full h-full flex flex-col items-center justify-center pt-16">
+        <!-- C LEAVE Logo -->
+        <div class="flex items-center gap-6 mb-12">
+            <div class="w-36 h-36 bg-white rounded-[2.5rem] flex items-center justify-center text-[#040833] relative shadow-[0_0_30px_rgba(255,255,255,0.15)]">
+                <span class="absolute top-5 text-[10px] font-bold tracking-widest text-gray-600">NET CUBE</span>
+                <span class="text-[7rem] font-black mt-2 leading-none">E</span>
+            </div>
+            <h1 class="text-[6.5rem] font-bold tracking-widest text-white shadow-sm">LEAVE</h1>
+        </div>
+        
+        <!-- Action Buttons (Stacked in Center) -->
+        <div class="flex flex-col gap-6 mt-4">
+            <button class="bg-white text-[#040833] rounded-[30px] py-4 px-10 text-[28px] font-bold flex items-center gap-6 w-[340px] shadow-xl hover:bg-gray-100 transition transform hover:scale-105 border-2 border-white/10">
+                <i class="fa-solid fa-house text-[36px] text-blue-900 w-12"></i> 
+                <span>E-Leave</span>
+            </button>
+            <button class="bg-white text-[#040833] rounded-[30px] py-4 px-10 text-[28px] font-bold flex items-center gap-6 w-[340px] shadow-xl hover:bg-gray-100 transition transform hover:scale-105 border-2 border-white/10">
+                <i class="fa-regular fa-circle-check text-[36px] text-blue-900 w-12"></i> 
+                <span>Approvals</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Bottom Footer Area -->
+    <div class="flex justify-between items-end w-full px-12 py-10 absolute bottom-0 left-0 right-0">
+        <!-- Bottom Left -->
+        <div class="flex items-center gap-4 cursor-pointer hover:opacity-80 transition">
+            <i class="fa-regular fa-calendar text-[45px]"></i>
+            <span class="text-3xl font-bold tracking-wide">Yearly Holidays</span>
+        </div>
+        
+        <!-- Bottom Center -->
+        <div class="flex items-center gap-4 cursor-pointer hover:opacity-80 transition absolute left-1/2 -translate-x-1/2">
+            <i class="fa-solid fa-user-group text-[45px]"></i>
+            <span class="text-3xl font-bold tracking-wide">Employees</span>
+        </div>
+        
+        <!-- Bottom Right -->
+        <div class="flex flex-col items-center gap-1 cursor-pointer hover:opacity-80 transition">
+            <div class="bg-white text-[#040833] w-12 h-14 rounded-lg flex items-center justify-center shadow-lg">
+                <i class="fa-solid fa-info text-[26px]"></i>
+            </div>
+            <span class="text-xl font-bold tracking-wide">Guide</span>
+        </div>
+    </div>
+
+</body>
+</html>
