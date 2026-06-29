@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Guide - E-Leave</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Sarabun:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'Sarabun', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#040833',
+                            light: '#0a1254',
+                            accent: '#00d2ff',
+                            secondary: '#3a7bd5'
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #040833;
+            color: white;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        
+        .bg-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: #040833;
+            overflow: hidden;
+        }
+        .bg-mesh::before, .bg-mesh::after {
+            content: '';
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.35;
+            animation: pulse-slow 8s infinite alternate;
+        }
+        .bg-mesh::before {
+            background: radial-gradient(circle, #3a7bd5 0%, transparent 70%);
+            top: -200px;
+            left: -200px;
+        }
+        .bg-mesh::after {
+            background: radial-gradient(circle, #00d2ff 0%, transparent 70%);
+            bottom: -200px;
+            right: -200px;
+            animation-delay: -4s;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+        
+        .glass-hover:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 210, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .transition-all-smooth {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Accordion transition */
+        .accordion-content {
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        
+        .accordion-content.open {
+            max-height: 500px;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="w-screen min-h-screen flex flex-col relative antialiased">
+    
+    <div class="bg-mesh"></div>
+
+    <header class="flex justify-between items-center w-full p-6 md:p-10 relative z-10">
+        <a href="index.html" class="flex items-center gap-3 glass rounded-full px-5 py-3 transition-all-smooth glass-hover group">
+            <i class="fa-solid fa-arrow-left text-brand-accent group-hover:-translate-x-1 transition-transform duration-300"></i>
+            <span class="font-medium tracking-wide text-gray-200 group-hover:text-white transition-colors">Back to Home</span>
+        </a>
+        
+        <div class="hidden md:flex flex-col items-end text-gray-400 text-sm font-medium glass px-5 py-2.5 rounded-2xl border border-white/5">
+            <span id="current-date" class="tracking-widest uppercase text-[10px] text-brand-accent"></span>
+            <span id="current-time" class="text-lg font-light text-white"></span>
+        </div>
+    </header>
+
+    <main class="flex-1 w-full max-w-4xl mx-auto px-6 pb-12 z-10 flex flex-col">
+        
+        <div class="flex flex-col mb-10 text-center">
+            <div class="w-20 h-20 bg-white rounded-3xl mx-auto mb-6 flex items-center justify-center shadow-[0_0_40px_rgba(255,255,255,0.4)]">
+                <i class="fa-solid fa-book-open text-brand-dark text-4xl"></i>
+            </div>
+            <h2 class="text-brand-accent font-bold tracking-widest text-sm uppercase mb-2">Help & Support</h2>
+            <h1 class="text-5xl md:text-6xl font-black text-white drop-shadow-lg">User Guide</h1>
+            <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Find answers to common questions and learn how to navigate the E-Leave system efficiently.</p>
+        </div>
+
+        <div class="w-full relative group mb-10">
+            <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                <i class="fa-solid fa-magnifying-glass text-gray-400 group-focus-within:text-brand-accent transition-colors"></i>
+            </div>
+            <input type="text" id="searchGuide" onkeyup="filterGuide()" class="w-full glass text-white placeholder-gray-400 text-base rounded-2xl focus:ring-2 focus:ring-brand-accent/50 outline-none pl-14 p-4 transition-all" placeholder="Search for a topic or question...">
+        </div>
+
+        <!-- Accordion List -->
+        <div class="flex flex-col gap-4" id="guideList">
+            
+            <!-- Item 1 -->
+            <div class="glass rounded-2xl overflow-hidden glass-hover guide-item">
+                <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between p-6 text-left focus:outline-none group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-brand-accent/20 flex items-center justify-center text-brand-accent">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-brand-accent transition-colors guide-title">How do I submit a new leave request?</h3>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-gray-500 transition-transform duration-300 chevron"></i>
+                </button>
+                <div class="accordion-content bg-black/20 border-t border-white/5">
+                    <div class="p-6 pt-4 text-gray-300 text-sm leading-relaxed">
+                        <p class="mb-3">To submit a new leave request, follow these steps:</p>
+                        <ol class="list-decimal pl-5 space-y-2 text-brand-accent/90 font-medium">
+                            <li><span class="text-gray-300 font-normal">Go to the main dashboard.</span></li>
+                            <li><span class="text-gray-300 font-normal">Click on the large "Create Request" button.</span></li>
+                            <li><span class="text-gray-300 font-normal">Select your leave type (Annual, Sick, Personal, etc.).</span></li>
+                            <li><span class="text-gray-300 font-normal">Choose your start and end dates.</span></li>
+                            <li><span class="text-gray-300 font-normal">Add any necessary remarks or attach a medical certificate if required.</span></li>
+                            <li><span class="text-gray-300 font-normal">Click "Submit". Your request will be sent to your Line Manager for approval.</span></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="glass rounded-2xl overflow-hidden glass-hover guide-item">
+                <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between p-6 text-left focus:outline-none group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-purple-400 transition-colors guide-title">How to check my remaining leave balance?</h3>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-gray-500 transition-transform duration-300 chevron"></i>
+                </button>
+                <div class="accordion-content bg-black/20 border-t border-white/5">
+                    <div class="p-6 pt-4 text-gray-300 text-sm leading-relaxed">
+                        <p>Your remaining leave balance is always visible on your main dashboard under the <strong>"Leave Balances"</strong> section. It shows a breakdown of your entitlement, used days, and remaining days for each leave category (e.g., Annual Leave: 10/15 days used).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="glass rounded-2xl overflow-hidden glass-hover guide-item">
+                <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between p-6 text-left focus:outline-none group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center text-orange-400">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-orange-400 transition-colors guide-title">Can I edit or cancel a submitted request?</h3>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-gray-500 transition-transform duration-300 chevron"></i>
+                </button>
+                <div class="accordion-content bg-black/20 border-t border-white/5">
+                    <div class="p-6 pt-4 text-gray-300 text-sm leading-relaxed">
+                        <p>Yes, you can edit or cancel a leave request <strong>only if its status is still "Pending"</strong>. Once a request has been "Approved" or "Rejected" by your manager, you cannot change it yourself. If you need to cancel an approved leave, you must contact HR directly.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="glass rounded-2xl overflow-hidden glass-hover guide-item">
+                <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between p-6 text-left focus:outline-none group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400">
+                            <i class="fa-regular fa-calendar-check"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-emerald-400 transition-colors guide-title">Where can I view the company's yearly holidays?</h3>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-gray-500 transition-transform duration-300 chevron"></i>
+                </button>
+                <div class="accordion-content bg-black/20 border-t border-white/5">
+                    <div class="p-6 pt-4 text-gray-300 text-sm leading-relaxed">
+                        <p>You can view the full list of official company holidays by clicking the <strong>"Yearly Holidays"</strong> icon in the bottom menu bar of the Home page. It will display a schedule that you can filter by year.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Item 5 -->
+            <div class="glass rounded-2xl overflow-hidden glass-hover guide-item">
+                <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between p-6 text-left focus:outline-none group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-pink-500/20 flex items-center justify-center text-pink-400">
+                            <i class="fa-solid fa-user-gear"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-pink-400 transition-colors guide-title">How do I update the employee directory?</h3>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-gray-500 transition-transform duration-300 chevron"></i>
+                </button>
+                <div class="accordion-content bg-black/20 border-t border-white/5">
+                    <div class="p-6 pt-4 text-gray-300 text-sm leading-relaxed">
+                        <p>Navigate to the <strong>"Employees"</strong> page via the bottom dock. If you have admin permissions, you can add new employees by clicking the "Onboard Employee" card at the bottom. You can also edit or delete existing records by hovering over their card and clicking the respective icons.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-12 text-center">
+            <p class="text-gray-500 text-sm">Still need help? <a href="#" class="text-brand-accent hover:underline">Contact Support Team</a></p>
+        </div>
+
+    </main>
+
+    <script>
+        function toggleAccordion(btn) {
+            const content = btn.nextElementSibling;
+            const chevron = btn.querySelector('.chevron');
+            
+            // Toggle current
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                chevron.style.transform = 'rotate(0deg)';
+            } else {
+                // Close others (optional - currently lets multiple be open)
+                /*
+                document.querySelectorAll('.accordion-content').forEach(el => {
+                    el.classList.remove('open');
+                });
+                document.querySelectorAll('.chevron').forEach(el => {
+                    el.style.transform = 'rotate(0deg)';
+                });
+                */
+                
+                content.classList.add('open');
+                chevron.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        function filterGuide() {
+            const input = document.getElementById('searchGuide').value.toLowerCase();
+            const items = document.querySelectorAll('.guide-item');
+            
+            items.forEach(item => {
+                const title = item.querySelector('.guide-title').textContent.toLowerCase();
+                const body = item.querySelector('.accordion-content').textContent.toLowerCase();
+                
+                if (title.includes(input) || body.includes(input)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function updateTime() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            
+            const dateEl = document.getElementById('current-date');
+            const timeEl = document.getElementById('current-time');
+            if (dateEl) dateEl.textContent = dateStr;
+            if (timeEl) timeEl.textContent = timeStr;
+        }
+        
+        // Init
+        updateTime();
+        setInterval(updateTime, 10000);
+    </script>
+</body>
+</html>

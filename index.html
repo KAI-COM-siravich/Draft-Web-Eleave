@@ -6,89 +6,237 @@
     <title>E-Leave Web App</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Sarabun:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'Sarabun', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#040833',
+                            light: '#0a1254',
+                            accent: '#00d2ff',
+                            secondary: '#3a7bd5'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-15px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700;800&display=swap');
         body {
-            font-family: 'Sarabun', sans-serif;
             background-color: #040833;
-            /* Added a subtle texture/gradient similar to the PowerApps background */
-            background-image: radial-gradient(circle at center, #0a1254 0%, #040833 100%);
             color: white;
             margin: 0;
             overflow: hidden;
         }
+        
+        /* Modern Mesh Gradient Background */
+        .bg-mesh {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: #040833;
+            overflow: hidden;
+        }
+        .bg-mesh::before, .bg-mesh::after {
+            content: '';
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.35;
+            animation: pulse-slow 8s infinite alternate;
+        }
+        .bg-mesh::before {
+            background: radial-gradient(circle, #3a7bd5 0%, transparent 70%);
+            top: -200px;
+            left: -200px;
+        }
+        .bg-mesh::after {
+            background: radial-gradient(circle, #00d2ff 0%, transparent 70%);
+            bottom: -200px;
+            right: -200px;
+            animation-delay: -4s;
+        }
+
+        /* Glassmorphism utilities */
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+        
+        .glass-hover:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 210, 255, 0.15);
+            transform: translateY(-4px);
+        }
+
+        /* Smooth transitions */
+        .transition-all-smooth {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
     </style>
 </head>
-<body class="w-screen h-screen flex flex-col relative">
+<body class="w-screen h-screen flex flex-col relative antialiased">
+    
+    <!-- Background Elements -->
+    <div class="bg-mesh"></div>
 
     <!-- Top Header Area -->
-    <div class="flex justify-between w-full p-8 absolute top-0 left-0 right-0">
+    <header class="flex justify-between items-center md:items-start w-full p-5 md:p-10 relative z-10">
         <!-- Top Left: Profile -->
-        <div class="flex flex-col items-center">
-            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center border-2 border-white shadow-lg overflow-hidden">
-                <i class="fa-regular fa-user text-[45px] text-[#040833] mt-2"></i>
+        <div class="flex items-center gap-2 md:gap-4 glass rounded-full md:pr-6 md:pl-2 p-1.5 md:py-2 transition-all-smooth glass-hover cursor-pointer group">
+            <div class="w-10 h-10 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-300">
+                <i class="fa-regular fa-user text-xl md:text-2xl text-brand-dark"></i>
             </div>
-            <span class="mt-2 text-lg tracking-wide">Netcube AutoSync</span>
+            <span class="hidden md:block font-medium tracking-wide text-gray-200 group-hover:text-white transition-colors">Netcube AutoSync</span>
         </div>
         
         <!-- Top Center: Netcube Logo -->
-        <div class="flex items-center gap-3 absolute left-1/2 -translate-x-1/2 top-8">
-            <div class="w-14 h-14 bg-gradient-to-br from-[#00d2ff] to-[#3a7bd5] rounded-lg flex items-center justify-center text-white font-black text-3xl shadow-lg border border-white/20">
-                NC
-            </div>
-            <div class="flex flex-col leading-none">
-                <span class="font-bold text-[26px] tracking-wide">net cube</span>
-                <span class="text-[11px] text-gray-300 font-medium">Innovation and Excellence</span>
+        <div class="md:absolute md:left-1/2 md:-translate-x-1/2 md:top-8 flex flex-col items-center group cursor-pointer">
+            <div class="flex items-center gap-2 md:gap-3">
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-brand-accent to-brand-secondary rounded-xl flex items-center justify-center text-white font-black text-xl md:text-2xl shadow-[0_0_20px_rgba(0,210,255,0.4)] group-hover:shadow-[0_0_30px_rgba(0,210,255,0.6)] transition-all duration-300 transform group-hover:scale-105">
+                    NC
+                </div>
+                <div class="flex flex-col leading-none">
+                    <span class="font-bold text-xl md:text-2xl tracking-wide text-white">net cube</span>
+                    <span class="text-[8px] md:text-[10px] text-brand-accent font-medium tracking-wider uppercase mt-1">Innovation and Excellence</span>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Center Content Area (C LEAVE and Buttons) -->
-    <div class="w-full h-full flex flex-col items-center justify-center pt-16">
-        <!-- C LEAVE Logo -->
-        <div class="flex items-center gap-6 mb-12">
-            <div class="w-36 h-36 bg-white rounded-[2.5rem] flex items-center justify-center text-[#040833] relative shadow-[0_0_30px_rgba(255,255,255,0.15)]">
-                <span class="absolute top-5 text-[10px] font-bold tracking-widest text-gray-600">NET CUBE</span>
-                <span class="text-[7rem] font-black mt-2 leading-none">E</span>
+        <!-- Top Right: Date / Time (New Feature) -->
+        <div class="hidden md:flex flex-col items-end text-gray-400 text-sm font-medium glass px-5 py-2.5 rounded-2xl border border-white/5">
+            <span id="current-date" class="tracking-widest uppercase text-[10px] text-brand-accent"></span>
+            <span id="current-time" class="text-lg font-light text-white"></span>
+        </div>
+    </header>
+
+    <!-- Center Content Area -->
+    <main class="flex-1 flex flex-col items-center justify-center z-10 w-full max-w-5xl mx-auto px-6 mt-[-40px]">
+        
+        <!-- Main Logo Area -->
+        <div class="flex flex-col md:flex-row items-center gap-5 md:gap-6 mb-10 md:mb-12 animate-float">
+            <div class="relative group cursor-pointer">
+                <!-- Outer glow -->
+                <div class="absolute -inset-1 bg-gradient-to-r from-brand-accent to-brand-secondary rounded-[2.5rem] blur opacity-30 group-hover:opacity-70 transition duration-500"></div>
+                <div class="w-28 h-28 md:w-32 md:h-32 bg-white rounded-[2.5rem] flex flex-col items-center justify-center text-brand-dark relative shadow-2xl transform transition-transform duration-500 group-hover:scale-105">
+                    <span class="absolute top-4 md:top-5 text-[8px] md:text-[9px] font-bold tracking-widest text-gray-500">NET CUBE</span>
+                    <span class="text-5xl md:text-[5.5rem] font-black mt-2 leading-none bg-clip-text text-transparent bg-gradient-to-b from-brand-dark to-gray-700">E</span>
+                </div>
             </div>
-            <h1 class="text-[6.5rem] font-bold tracking-widest text-white shadow-sm">LEAVE</h1>
+            <h1 class="text-5xl md:text-6xl lg:text-[6rem] font-bold tracking-widest text-white drop-shadow-2xl">
+                LEAVE
+            </h1>
         </div>
         
-        <!-- Action Buttons (Stacked in Center) -->
-        <div class="flex flex-col gap-6 mt-4">
-            <button class="bg-white text-[#040833] rounded-[30px] py-4 px-10 text-[28px] font-bold flex items-center gap-6 w-[340px] shadow-xl hover:bg-gray-100 transition transform hover:scale-105 border-2 border-white/10">
-                <i class="fa-solid fa-house text-[36px] text-blue-900 w-12"></i> 
-                <span>E-Leave</span>
-            </button>
-            <button class="bg-white text-[#040833] rounded-[30px] py-4 px-10 text-[28px] font-bold flex items-center gap-6 w-[340px] shadow-xl hover:bg-gray-100 transition transform hover:scale-105 border-2 border-white/10">
-                <i class="fa-regular fa-circle-check text-[36px] text-blue-900 w-12"></i> 
-                <span>Approvals</span>
-            </button>
+        <!-- Action Buttons -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 w-full max-w-[700px]">
+            <a href="e-leave.html" class="block group relative overflow-hidden glass rounded-[2rem] p-[2px] transition-all-smooth hover:scale-[1.03] active:scale-[0.98] no-underline">
+                <div class="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="bg-white/5 backdrop-blur-xl rounded-[1.9rem] p-5 md:p-6 flex items-center justify-center gap-5 h-full border border-white/5 shadow-inner">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#00d2ff] to-[#3a7bd5] flex items-center justify-center shadow-[0_0_20px_rgba(0,210,255,0.4)] group-hover:rotate-12 transition-transform duration-500">
+                        <i class="fa-solid fa-calendar-day text-xl text-white"></i>
+                    </div>
+                    <span class="text-2xl font-semibold tracking-wide text-white text-left flex-1 group-hover:text-brand-accent transition-colors">E-Leave</span>
+                    <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-brand-accent group-hover:text-brand-dark transition-all duration-300">
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="approvals.html" class="block group relative overflow-hidden glass rounded-[2rem] p-[2px] transition-all-smooth hover:scale-[1.03] active:scale-[0.98] no-underline">
+                <div class="absolute inset-0 bg-gradient-to-bl from-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="bg-white/5 backdrop-blur-xl rounded-[1.9rem] p-5 md:p-6 flex items-center justify-center gap-5 h-full border border-white/5 shadow-inner">
+                    <div class="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.3)] group-hover:-rotate-12 transition-transform duration-500">
+                        <i class="fa-regular fa-circle-check text-xl text-brand-dark"></i>
+                    </div>
+                    <span class="text-2xl font-semibold tracking-wide text-white text-left flex-1 group-hover:text-white transition-colors">Approvals</span>
+                    <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-brand-dark transition-all duration-300">
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </div>
+                </div>
+            </a>
         </div>
-    </div>
+    </main>
 
-    <!-- Bottom Footer Area -->
-    <div class="flex justify-between items-end w-full px-12 py-10 absolute bottom-0 left-0 right-0">
-        <!-- Bottom Left -->
-        <div class="flex items-center gap-4 cursor-pointer hover:opacity-80 transition">
-            <i class="fa-regular fa-calendar text-[45px]"></i>
-            <span class="text-3xl font-bold tracking-wide">Yearly Holidays</span>
+    <!-- Bottom Footer Dock -->
+    <footer class="w-full pb-6 pt-4 px-6 relative z-10 flex justify-center">
+        <!-- Floating Dock Style -->
+        <div class="glass rounded-[2rem] p-2.5 flex flex-row items-center gap-2 md:gap-3 w-full max-w-[700px] mx-auto justify-between md:justify-center border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.4)] relative">
+            <!-- Decorative line -->
+            <div class="absolute -top-[1px] left-1/2 -translate-x-1/2 w-1/3 h-[2px] bg-gradient-to-r from-transparent via-white/40 to-transparent"></div>
+            
+            <!-- Item 1 -->
+            <a href="yearly-holidays.html" class="flex-1 md:flex-none flex flex-col md:flex-row items-center justify-center px-4 md:px-6 py-2.5 md:py-3 rounded-2xl glass-hover transition-all-smooth cursor-pointer group gap-2 md:gap-3 no-underline">
+                <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors shadow-inner border border-white/5">
+                    <i class="fa-regular fa-calendar text-xl md:text-2xl text-brand-accent group-hover:scale-110 transition-transform"></i>
+                </div>
+                <span class="text-sm md:text-lg font-medium tracking-wide text-gray-300 group-hover:text-white transition-colors mt-2 md:mt-0 text-center md:text-left">Yearly<br class="block md:hidden"> Holidays</span>
+            </a>
+            
+            <div class="w-px h-12 bg-white/10 hidden md:block"></div>
+            
+            <!-- Item 2 -->
+            <a href="employees.html" class="flex-1 md:flex-none flex flex-col md:flex-row items-center justify-center px-4 md:px-6 py-2.5 md:py-3 rounded-2xl glass-hover transition-all-smooth cursor-pointer group gap-2 md:gap-3 no-underline">
+                <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors shadow-inner border border-white/5">
+                    <i class="fa-solid fa-user-group text-xl md:text-2xl text-purple-400 group-hover:scale-110 transition-transform"></i>
+                </div>
+                <span class="text-sm md:text-lg font-medium tracking-wide text-gray-300 group-hover:text-white transition-colors mt-2 md:mt-0">Employees</span>
+            </a>
+            
+            <div class="w-px h-12 bg-white/10 hidden md:block"></div>
+            
+            <!-- Item 3 -->
+            <a href="guide.html" class="flex-1 md:flex-none flex flex-col md:flex-row items-center justify-center px-4 md:px-6 py-2.5 md:py-3 rounded-2xl glass-hover transition-all-smooth cursor-pointer group gap-2 md:gap-3 no-underline">
+                <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white text-brand-dark flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(255,255,255,0.6)] transition-all transform group-hover:scale-105">
+                    <i class="fa-solid fa-info text-xl md:text-2xl"></i>
+                </div>
+                <span class="text-sm md:text-lg font-medium tracking-wide text-gray-300 group-hover:text-white transition-colors mt-2 md:mt-0">Guide</span>
+            </a>
         </div>
-        
-        <!-- Bottom Center -->
-        <div class="flex items-center gap-4 cursor-pointer hover:opacity-80 transition absolute left-1/2 -translate-x-1/2">
-            <i class="fa-solid fa-user-group text-[45px]"></i>
-            <span class="text-3xl font-bold tracking-wide">Employees</span>
-        </div>
-        
-        <!-- Bottom Right -->
-        <div class="flex flex-col items-center gap-1 cursor-pointer hover:opacity-80 transition">
-            <div class="bg-white text-[#040833] w-12 h-14 rounded-lg flex items-center justify-center shadow-lg">
-                <i class="fa-solid fa-info text-[26px]"></i>
-            </div>
-            <span class="text-xl font-bold tracking-wide">Guide</span>
-        </div>
-    </div>
+    </footer>
 
+    <script>
+        // Simple script to update date and time for the top right corner
+        function updateTime() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            
+            const dateEl = document.getElementById('current-date');
+            const timeEl = document.getElementById('current-time');
+            
+            if(dateEl) dateEl.textContent = dateStr;
+            if(timeEl) timeEl.textContent = timeStr;
+        }
+        
+        updateTime();
+        setInterval(updateTime, 10000);
+    </script>
 </body>
 </html>

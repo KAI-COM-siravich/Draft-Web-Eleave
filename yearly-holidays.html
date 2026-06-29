@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yearly Holidays - E-Leave</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Sarabun:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'Sarabun', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#040833',
+                            light: '#0a1254',
+                            accent: '#00d2ff',
+                            secondary: '#3a7bd5'
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #040833;
+            color: white;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        
+        .bg-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: #040833;
+            overflow: hidden;
+        }
+        .bg-mesh::before, .bg-mesh::after {
+            content: '';
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.35;
+            animation: pulse-slow 8s infinite alternate;
+        }
+        .bg-mesh::before {
+            background: radial-gradient(circle, #3a7bd5 0%, transparent 70%);
+            top: -200px;
+            left: -200px;
+        }
+        .bg-mesh::after {
+            background: radial-gradient(circle, #00d2ff 0%, transparent 70%);
+            bottom: -200px;
+            right: -200px;
+            animation-delay: -4s;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+        
+        .glass-hover:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(192, 132, 252, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .transition-all-smooth {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-glass {
+            background: rgba(10, 18, 84, 0.85);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+        
+        /* Custom Dropdown & Flatpickr Overrides */
+        .flatpickr-calendar.dark {
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .flatpickr-calendar.dark .flatpickr-day.selected {
+            background: #00d2ff;
+            border-color: #00d2ff;
+        }
+        .custom-select-wrapper {
+            position: relative;
+            user-select: none;
+        }
+        .custom-select {
+            position: relative;
+            cursor: pointer;
+        }
+        .custom-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            margin-top: 8px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 250px;
+            overflow-y: auto;
+        }
+        .custom-select.open ~ .custom-options {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .custom-option {
+            padding: 12px 16px;
+            color: #d1d5db;
+            transition: all 0.2s;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .custom-option:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        .custom-option.selected {
+            color: #00d2ff;
+            background: rgba(0, 210, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="w-screen min-h-screen flex flex-col relative antialiased">
+    
+    <div class="bg-mesh"></div>
+
+    <header class="flex justify-between items-center w-full p-6 md:p-10 relative z-10">
+        <a href="index.html" class="flex items-center gap-3 glass rounded-full px-5 py-3 transition-all-smooth glass-hover group">
+            <i class="fa-solid fa-arrow-left text-brand-accent group-hover:-translate-x-1 transition-transform duration-300"></i>
+            <span class="font-medium tracking-wide text-gray-200 group-hover:text-white transition-colors">Back to Home</span>
+        </a>
+        
+        <div class="hidden md:flex flex-col items-end text-gray-400 text-sm font-medium glass px-5 py-2.5 rounded-2xl border border-white/5">
+            <span id="current-date" class="tracking-widest uppercase text-[10px] text-brand-accent"></span>
+            <span id="current-time" class="text-lg font-light text-white"></span>
+        </div>
+    </header>
+
+    <main class="flex-1 w-full max-w-7xl mx-auto px-6 pb-12 z-10 flex flex-col">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div>
+                <h2 class="text-brand-accent font-bold tracking-widest text-sm uppercase mb-2">Company Schedule</h2>
+                <h1 class="text-5xl md:text-6xl font-black text-white drop-shadow-lg">Yearly Holidays</h1>
+            </div>
+            
+            <div class="glass px-6 py-3 rounded-2xl flex items-center gap-4 relative custom-select-wrapper">
+                <span class="text-gray-400 font-medium">Year</span>
+                <div class="custom-select bg-transparent text-white font-bold text-xl outline-none border-none cursor-pointer pr-4 flex items-center gap-2">
+                    <span class="selected-display">2026</span>
+                    <i class="fa-solid fa-chevron-down text-brand-accent text-sm pointer-events-none transition-transform duration-300"></i>
+                </div>
+                <input type="hidden" id="yearFilter" value="2026" onchange="renderGrid()">
+                <div class="custom-options w-32 left-auto right-0">
+                    <div class="custom-option selected" data-value="2026">2026</div>
+                    <div class="custom-option" data-value="2025">2025</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="holidays-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Rendered by JS -->
+        </div>
+    </main>
+
+    <!-- Comprehensive Modal for Add/Edit -->
+    <div id="holidayModal" class="fixed inset-0 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 bg-black/60 backdrop-blur-sm p-4 overflow-y-auto">
+        <div class="modal-glass w-full max-w-2xl rounded-[2rem] p-6 md:p-8 shadow-2xl transform scale-95 transition-transform duration-300 my-8" id="modalContent">
+            <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
+                <h2 id="modalTitle" class="text-2xl font-bold text-white">Add Holiday</h2>
+                <button type="button" onclick="closeModal()" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/20 transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <form id="holidayForm" onsubmit="saveHoliday(event)" class="custom-scrollbar pr-2">
+                <input type="hidden" id="holId">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+                    
+                    <div class="md:col-span-2 text-brand-accent text-xs font-bold uppercase tracking-widest border-l-2 border-brand-accent pl-2 mt-2">
+                        Basic Information
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Holiday Date</label>
+                        <input type="text" id="holDate" required class="w-full bg-white/5 border border-white/10 text-white text-sm rounded-xl focus:ring-2 focus:ring-brand-accent/50 outline-none p-3 transition-all date-picker">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Holiday Name</label>
+                        <input type="text" id="holName" required class="w-full bg-white/5 border border-white/10 text-white text-sm rounded-xl focus:ring-2 focus:ring-brand-accent/50 outline-none p-3 transition-all" placeholder="e.g. New Year's Day">
+                    </div>
+                    
+                    <div class="relative custom-select-wrapper">
+                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Holiday Type</label>
+                        <div class="custom-select w-full bg-white/5 border border-white/10 text-white text-sm rounded-xl focus:ring-2 focus:ring-brand-accent/50 outline-none p-3 transition-all flex justify-between items-center">
+                            <span class="selected-display">Public Holiday</span>
+                            <i class="fa-solid fa-chevron-down text-brand-accent text-[10px] pointer-events-none transition-transform duration-300"></i>
+                        </div>
+                        <input type="hidden" id="holType" required value="Public Holiday">
+                        <div class="custom-options">
+                            <div class="custom-option selected" data-value="Public Holiday">Public Holiday</div>
+                            <div class="custom-option" data-value="Long Weekend">Long Weekend</div>
+                            <div class="custom-option" data-value="Company Event">Company Event</div>
+                            <div class="custom-option" data-value="Special Observance">Special Observance</div>
+                        </div>
+                    </div>
+
+                    <div class="relative custom-select-wrapper">
+                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Status</label>
+                        <div class="custom-select w-full bg-white/5 border border-white/10 text-white text-sm rounded-xl focus:ring-2 focus:ring-brand-accent/50 outline-none p-3 transition-all flex justify-between items-center">
+                            <span class="selected-display">Confirmed</span>
+                            <i class="fa-solid fa-chevron-down text-brand-accent text-[10px] pointer-events-none transition-transform duration-300"></i>
+                        </div>
+                        <input type="hidden" id="holStatus" required value="Confirmed">
+                        <div class="custom-options">
+                            <div class="custom-option selected" data-value="Confirmed">Confirmed</div>
+                            <div class="custom-option" data-value="Tentative">Tentative</div>
+                            <div class="custom-option" data-value="Cancelled">Cancelled</div>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-2 text-brand-accent text-xs font-bold uppercase tracking-widest border-l-2 border-brand-accent pl-2 mt-4">
+                        Additional Details
+                    </div>
+
+                    <div class="md:col-span-2 relative custom-select-wrapper">
+                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Affected Departments</label>
+                        <div class="custom-select w-full bg-white/5 border border-white/10 text-white text-sm rounded-xl focus:ring-2 focus:ring-brand-accent/50 outline-none p-3 transition-all flex justify-between items-center">
+                            <span class="selected-display">All Departments</span>
+                            <i class="fa-solid fa-chevron-down text-brand-accent text-[10px] pointer-events-none transition-transform duration-300"></i>
+                        </div>
+                        <input type="hidden" id="holDepts" required value="All Departments">
+                        <div class="custom-options">
+                            <div class="custom-option selected" data-value="All Departments">All Departments</div>
+                            <div class="custom-option" data-value="HQ Only">HQ Only</div>
+                            <div class="custom-option" data-value="Production Only">Production Only</div>
+                            <div class="custom-option" data-value="Specific Branches">Specific Branches (See Notes)</div>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Description / Notes</label>
+                        <textarea id="holNotes" rows="3" class="w-full bg-white/5 border border-white/10 text-white text-sm rounded-xl focus:ring-2 focus:ring-brand-accent/50 outline-none p-3 transition-all resize-none custom-scrollbar" placeholder="Enter any specific details about this holiday..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="flex gap-4 pt-4 border-t border-white/10">
+                    <button type="button" onclick="closeModal()" class="w-1/3 py-3.5 rounded-xl border border-white/10 text-gray-300 hover:text-white hover:bg-white/5 transition-colors font-semibold">Cancel</button>
+                    <button type="submit" class="w-2/3 py-3.5 rounded-xl bg-gradient-to-r from-brand-accent to-brand-secondary hover:opacity-90 text-white shadow-[0_0_20px_rgba(0,210,255,0.3)] transition-all font-bold tracking-wide">Save Holiday Record</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Details Modal (Read Only) -->
+    <div id="viewModal" class="fixed inset-0 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 bg-black/60 backdrop-blur-sm p-4">
+        <div class="modal-glass w-full max-w-lg rounded-[2rem] p-0 shadow-2xl transform scale-95 transition-transform duration-300 overflow-hidden" id="viewModalContent">
+            <div id="viewModalHeader" class="p-8 pb-12 relative flex justify-between items-start bg-gradient-to-br from-brand-accent/20 to-transparent border-b border-white/10">
+                <div class="relative z-10 flex gap-5 items-center">
+                    <div id="viewDateIcon" class="w-20 h-20 rounded-2xl bg-[#040833] border border-brand-accent/50 shadow-lg flex flex-col items-center justify-center">
+                        <span id="viewMonth" class="text-[11px] font-bold text-brand-accent uppercase tracking-wider">--</span>
+                        <span id="viewDay" class="text-3xl font-black text-white leading-none mt-1">--</span>
+                    </div>
+                    <div>
+                        <h2 id="viewName" class="text-3xl font-black text-white drop-shadow-md pr-8">Holiday Name</h2>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <span id="viewTypeBadge" class="inline-block px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-white/10 text-white border border-white/20">Type</span>
+                            <span id="viewStatusBadge" class="inline-block px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider">Status</span>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" onclick="closeViewModal()" class="absolute top-6 right-6 z-20 w-8 h-8 rounded-full bg-black/30 flex items-center justify-center text-white/70 hover:text-white hover:bg-black/50 transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div class="p-8 pt-6 relative z-20 bg-[#040833]/90 backdrop-blur-md rounded-b-[2rem]">
+                <div class="grid grid-cols-1 gap-y-6">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <span class="block text-[10px] text-gray-400 uppercase tracking-widest mb-1">Full Date</span>
+                            <span id="viewFullDate" class="text-sm font-semibold text-white flex items-center gap-2">
+                                <i class="fa-regular fa-calendar text-brand-accent"></i> <span>--</span>
+                            </span>
+                        </div>
+                        <div>
+                            <span class="block text-[10px] text-gray-400 uppercase tracking-widest mb-1">Affected Staff</span>
+                            <span id="viewDepts" class="text-sm font-semibold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-users text-brand-accent"></i> <span>--</span>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-white/5 pt-5">
+                        <span class="block text-[10px] text-gray-400 uppercase tracking-widest mb-2">Description / Notes</span>
+                        <p id="viewNotes" class="text-sm text-gray-300 leading-relaxed bg-white/5 p-4 rounded-xl border border-white/5">
+                            --
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="mt-8 flex gap-3 border-t border-white/10 pt-6">
+                    <button id="btnEditFromView" class="flex-1 py-3 rounded-xl border border-white/10 text-white hover:bg-white/10 transition-colors font-medium flex justify-center items-center gap-2">
+                        <i class="fa-solid fa-pen text-xs"></i> Edit Holiday
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Store V2
+        let holidays = JSON.parse(localStorage.getItem('eleave_holidays_v2'));
+        
+        if (!holidays) {
+            // Attempt to migrate old data if it exists
+            const oldData = JSON.parse(localStorage.getItem('eleave_holidays'));
+            if(oldData && oldData.length > 0) {
+                holidays = oldData.map(h => ({
+                    ...h,
+                    status: 'Confirmed',
+                    affectedDepts: 'All Departments',
+                    notes: ''
+                }));
+            } else {
+                holidays = [
+                    { id: 1, date: '2026-01-01', name: "New Year's Day", type: 'Public Holiday', status: 'Confirmed', affectedDepts: 'All Departments', notes: 'Start of the new year. Office closed.' },
+                    { id: 2, date: '2026-04-13', name: "Songkran Festival", type: 'Long Weekend', status: 'Confirmed', affectedDepts: 'All Departments', notes: 'Thai New Year traditional holiday.' },
+                    { id: 3, date: '2026-04-14', name: "Songkran Festival", type: 'Long Weekend', status: 'Confirmed', affectedDepts: 'All Departments', notes: 'Thai New Year traditional holiday.' },
+                    { id: 4, date: '2026-04-15', name: "Songkran Festival", type: 'Long Weekend', status: 'Confirmed', affectedDepts: 'All Departments', notes: 'Thai New Year traditional holiday.' },
+                    { id: 5, date: '2026-05-01', name: "National Labour Day", type: 'Public Holiday', status: 'Confirmed', affectedDepts: 'Production Only', notes: 'HQ remains open for core staff.' },
+                    { id: 6, date: '2026-07-28', name: "King's Birthday", type: 'Public Holiday', status: 'Confirmed', affectedDepts: 'All Departments', notes: 'H.M. King Maha Vajiralongkorn Phra Vajiraklaochaoyuhua’s Birthday.' },
+                    { id: 7, date: '2026-08-12', name: "Mother's Day", type: 'Public Holiday', status: 'Confirmed', affectedDepts: 'All Departments', notes: 'H.M. Queen Sirikit The Queen Mother’s Birthday.' },
+                    { id: 10, date: '2026-12-31', name: "New Year's Eve", type: 'Public Holiday', status: 'Tentative', affectedDepts: 'All Departments', notes: 'Pending final confirmation from board.' }
+                ];
+            }
+            saveToStorage();
+        }
+
+        function saveToStorage() {
+            localStorage.setItem('eleave_holidays_v2', JSON.stringify(holidays));
+        }
+
+        function getMonthShort(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleString('en-US', { month: 'short' });
+        }
+
+        function getDay(dateStr) {
+            const date = new Date(dateStr);
+            return date.getDate().toString().padStart(2, '0');
+        }
+
+        function getWeekday(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleString('en-US', { weekday: 'long' });
+        }
+        
+        function getYear(dateStr) {
+            const date = new Date(dateStr);
+            return date.getFullYear().toString();
+        }
+
+        function getStatusConfig(status) {
+            switch(status) {
+                case 'Confirmed': return { class: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' };
+                case 'Tentative': return { class: 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30' };
+                case 'Cancelled': return { class: 'bg-red-500/20 text-red-400 border border-red-500/30' };
+                default: return { class: 'bg-gray-500/20 text-gray-400 border border-gray-500/30' };
+            }
+        }
+
+        function renderGrid() {
+            const grid = document.getElementById('holidays-grid');
+            const selectedYear = document.getElementById('yearFilter').value;
+            
+            grid.innerHTML = '';
+            
+            const filteredHolidays = holidays
+                .filter(h => getYear(h.date) === selectedYear)
+                .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            filteredHolidays.forEach(hol => {
+                const month = getMonthShort(hol.date);
+                const day = getDay(hol.date);
+                const weekday = getWeekday(hol.date);
+                
+                const isSpecial = hol.type === 'Long Weekend' || hol.type === 'Company Event';
+                const statusCfg = getStatusConfig(hol.status);
+                
+                const bgIcon = isSpecial 
+                    ? `bg-brand-accent/10 border border-brand-accent/30 shadow-inner group-hover:bg-gradient-to-br from-brand-accent/20 to-brand-secondary/20 group-hover:border-brand-accent/50` 
+                    : `bg-white/5 border border-white/10 shadow-inner group-hover:bg-gradient-to-br from-brand-accent/20 to-brand-secondary/20 group-hover:border-brand-accent/50`;
+                
+                const specialBadge = isSpecial
+                    ? `<span class="mt-2 text-[9px] uppercase tracking-wider font-bold bg-purple-500/20 text-purple-300 px-2 py-1 rounded-md inline-block w-max">${hol.type}</span>`
+                    : `<span class="mt-2 text-[9px] uppercase tracking-wider font-bold bg-white/5 text-gray-400 px-2 py-1 rounded-md inline-block w-max">${hol.type}</span>`;
+                
+                const specialGlow = isSpecial
+                    ? `<div class="absolute top-0 right-0 w-2 h-full bg-gradient-to-b from-brand-accent to-brand-secondary opacity-50"></div>`
+                    : '';
+
+                const statusDot = hol.status === 'Tentative' ? `<div class="absolute top-3 left-3 w-2 h-2 rounded-full bg-yellow-400 animate-pulse" title="Tentative"></div>` : '';
+                const cancelledLine = hol.status === 'Cancelled' ? `line-through opacity-50` : '';
+
+                const card = `
+                    <div class="glass p-6 rounded-3xl flex items-center gap-5 glass-hover transition-all-smooth group relative overflow-hidden cursor-pointer" onclick="openViewModal(${hol.id})">
+                        ${specialGlow}
+                        ${statusDot}
+                        
+                        <!-- Hover Action Buttons -->
+                        <div class="absolute top-3 right-3 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+                            <button onclick="event.stopPropagation(); openModal(${hol.id})" class="w-7 h-7 rounded-full bg-black/40 hover:bg-brand-accent/50 text-white flex items-center justify-center transition-colors backdrop-blur-md border border-white/10" title="Edit">
+                                <i class="fa-solid fa-pen text-[10px]"></i>
+                            </button>
+                            <button onclick="event.stopPropagation(); deleteHoliday(${hol.id})" class="w-7 h-7 rounded-full bg-black/40 hover:bg-red-500/50 text-white flex items-center justify-center transition-colors backdrop-blur-md border border-white/10 hover:border-red-500/30" title="Delete">
+                                <i class="fa-solid fa-trash text-[10px]"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="w-20 h-20 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 ${bgIcon} ${cancelledLine}">
+                            <span class="text-[11px] font-bold text-brand-accent uppercase tracking-wider">${month}</span>
+                            <span class="text-3xl font-black text-white leading-none mt-1">${day}</span>
+                        </div>
+                        <div class="flex flex-col flex-1 pr-4">
+                            <h3 class="text-lg font-bold text-white group-hover:text-brand-accent transition-colors leading-tight mb-1 ${cancelledLine}">${hol.name}</h3>
+                            <span class="text-[13px] text-gray-400 flex items-center gap-2">
+                                <i class="fa-regular fa-clock text-[10px]"></i> ${weekday}
+                            </span>
+                            <div class="flex gap-2 items-center">
+                                ${specialBadge}
+                                ${hol.status !== 'Confirmed' ? `<span class="mt-2 text-[9px] uppercase tracking-wider font-bold px-2 py-1 rounded-md ${statusCfg.class}">${hol.status}</span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+
+            // "Add Holiday" card
+            grid.innerHTML += `
+                <div onclick="openModal()" class="glass p-6 rounded-3xl flex items-center justify-center gap-4 glass-hover transition-all-smooth group text-center border-dashed border-2 border-white/20 hover:border-brand-accent/50 cursor-pointer min-h-[128px]">
+                    <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-white/50 group-hover:text-brand-accent group-hover:bg-brand-accent/20 transition-all duration-300">
+                        <i class="fa-solid fa-plus text-lg"></i>
+                    </div>
+                    <div class="text-left">
+                        <h3 class="text-lg font-bold text-gray-400 group-hover:text-white transition-colors">Add Holiday</h3>
+                        <p class="text-[11px] text-gray-500 mt-0.5">Create a new schedule</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Modals Management
+        const addEditModal = document.getElementById('holidayModal');
+        const modalContent = document.getElementById('modalContent');
+        const viewModal = document.getElementById('viewModal');
+        const viewModalContent = document.getElementById('viewModalContent');
+        const form = document.getElementById('holidayForm');
+
+        function openModal(id = null) {
+            document.getElementById('modalTitle').textContent = id ? 'Edit Holiday Record' : 'Add New Holiday';
+            
+            if (id) {
+                const hol = holidays.find(h => h.id === id);
+                document.getElementById('holId').value = hol.id;
+                document.getElementById('holDate').value = hol.date;
+                document.getElementById('holName').value = hol.name;
+                document.getElementById('holType').value = hol.type;
+                document.getElementById('holStatus').value = hol.status || 'Confirmed';
+                document.getElementById('holDepts').value = hol.affectedDepts || 'All Departments';
+                document.getElementById('holNotes').value = hol.notes || '';
+            } else {
+                form.reset();
+                document.getElementById('holId').value = '';
+                const year = document.getElementById('yearFilter').value;
+                document.getElementById('holDate').value = `${year}-01-01`;
+            }
+            
+            closeViewModal(true);
+            
+            addEditModal.classList.remove('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 50);
+        }
+
+        function closeModal() {
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            setTimeout(() => {
+                addEditModal.classList.add('opacity-0', 'pointer-events-none');
+            }, 300);
+        }
+
+        function openViewModal(id) {
+            const hol = holidays.find(h => h.id === id);
+            if(!hol) return;
+
+            const statusCfg = getStatusConfig(hol.status || 'Confirmed');
+
+            document.getElementById('viewMonth').textContent = getMonthShort(hol.date);
+            document.getElementById('viewDay').textContent = getDay(hol.date);
+            
+            document.getElementById('viewName').textContent = hol.name;
+            document.getElementById('viewTypeBadge').textContent = hol.type;
+            
+            const statusBadge = document.getElementById('viewStatusBadge');
+            statusBadge.textContent = hol.status || 'Confirmed';
+            statusBadge.className = `inline-block px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${statusCfg.class}`;
+
+            document.getElementById('viewFullDate').innerHTML = `<i class="fa-regular fa-calendar text-brand-accent"></i> <span>${getWeekday(hol.date)}, ${getMonthShort(hol.date)} ${getDay(hol.date)}, ${getYear(hol.date)}</span>`;
+            document.getElementById('viewDepts').innerHTML = `<i class="fa-solid fa-users text-brand-accent"></i> <span>${hol.affectedDepts || 'All Departments'}</span>`;
+            
+            document.getElementById('viewNotes').textContent = hol.notes || 'No additional details provided.';
+
+            const btnEdit = document.getElementById('btnEditFromView');
+            btnEdit.onclick = () => openModal(hol.id);
+
+            viewModal.classList.remove('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                viewModalContent.classList.remove('scale-95');
+                viewModalContent.classList.add('scale-100');
+            }, 50);
+        }
+
+        function closeViewModal(instant = false) {
+            if(instant) {
+                viewModal.classList.add('opacity-0', 'pointer-events-none');
+                viewModalContent.classList.remove('scale-100');
+                viewModalContent.classList.add('scale-95');
+                return;
+            }
+            viewModalContent.classList.remove('scale-100');
+            viewModalContent.classList.add('scale-95');
+            setTimeout(() => {
+                viewModal.classList.add('opacity-0', 'pointer-events-none');
+            }, 300);
+        }
+
+        function saveHoliday(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('holId').value;
+            const date = document.getElementById('holDate').value;
+            const name = document.getElementById('holName').value;
+            const type = document.getElementById('holType').value;
+            const status = document.getElementById('holStatus').value;
+            const affectedDepts = document.getElementById('holDepts').value;
+            const notes = document.getElementById('holNotes').value;
+            
+            if (id) {
+                // Update
+                const index = holidays.findIndex(h => h.id === parseInt(id));
+                holidays[index] = { ...holidays[index], date, name, type, status, affectedDepts, notes };
+            } else {
+                // Add
+                const newId = holidays.length > 0 ? Math.max(...holidays.map(h => h.id)) + 1 : 1;
+                holidays.push({ id: newId, date, name, type, status, affectedDepts, notes });
+            }
+
+            saveToStorage();
+            
+            const newYear = getYear(date);
+            const yearSelect = document.getElementById('yearFilter');
+            if(yearSelect.value !== newYear) {
+                let exists = false;
+                for(let i=0; i<yearSelect.options.length; i++) {
+                    if(yearSelect.options[i].value === newYear) exists = true;
+                }
+                if(!exists) {
+                    const newOption = document.createElement('option');
+                    newOption.value = newYear;
+                    newOption.text = newYear;
+                    newOption.className = 'text-brand-dark';
+                    yearSelect.appendChild(newOption);
+                }
+                yearSelect.value = newYear;
+            }
+            
+            renderGrid();
+            closeModal();
+        }
+
+        function deleteHoliday(id) {
+            if (confirm('Are you sure you want to completely remove this holiday record?')) {
+                holidays = holidays.filter(h => h.id !== id);
+                saveToStorage();
+                renderGrid();
+            }
+        }
+
+        function updateTime() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            
+            const dateEl = document.getElementById('current-date');
+            const timeEl = document.getElementById('current-time');
+            if (dateEl) dateEl.textContent = dateStr;
+            if (timeEl) timeEl.textContent = timeStr;
+        }
+        
+        // Init
+        updateTime();
+        setInterval(updateTime, 10000);
+        renderGrid();
+    </script>
+    
+    <!-- Flatpickr & Custom Select JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Init Flatpickr
+            flatpickr(".date-picker", {
+                dateFormat: "Y-m-d",
+                allowInput: true
+            });
+
+            // Init Custom Selects
+            function initCustomSelects() {
+                document.querySelectorAll('.custom-select-wrapper').forEach(wrapper => {
+                    const select = wrapper.querySelector('.custom-select');
+                    const options = wrapper.querySelectorAll('.custom-option');
+                    const display = wrapper.querySelector('.selected-display');
+                    const hiddenInput = wrapper.querySelector('input[type="hidden"]');
+                    
+                    if(select) {
+                        select.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            document.querySelectorAll('.custom-select.open').forEach(other => {
+                                if (other !== select) other.classList.remove('open');
+                            });
+                            select.classList.toggle('open');
+                        });
+                    }
+                    
+                    options.forEach(option => {
+                        option.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const value = option.getAttribute('data-value');
+                            display.textContent = option.textContent;
+                            hiddenInput.value = value;
+                            
+                            options.forEach(opt => opt.classList.remove('selected'));
+                            option.classList.add('selected');
+                            select.classList.remove('open');
+                            
+                            if (hiddenInput.onchange) hiddenInput.onchange(new Event('change'));
+                            hiddenInput.dispatchEvent(new Event('change'));
+                        });
+                    });
+                });
+                
+                document.addEventListener('click', () => {
+                    document.querySelectorAll('.custom-select.open').forEach(select => {
+                        select.classList.remove('open');
+                    });
+                });
+            }
+            initCustomSelects();
+
+            // Intercept form setup to update custom selects
+            const originalEdit = window.editHoliday;
+            if(originalEdit) {
+                window.editHoliday = function(id) {
+                    originalEdit(id);
+                    // Update custom selects based on hidden inputs
+                    document.querySelectorAll('.custom-select-wrapper').forEach(wrapper => {
+                        const hiddenInput = wrapper.querySelector('input[type="hidden"]');
+                        const display = wrapper.querySelector('.selected-display');
+                        const options = wrapper.querySelectorAll('.custom-option');
+                        if(hiddenInput && display) {
+                            options.forEach(opt => opt.classList.remove('selected'));
+                            const matchingOpt = Array.from(options).find(o => o.getAttribute('data-value') === hiddenInput.value);
+                            if(matchingOpt) {
+                                matchingOpt.classList.add('selected');
+                                display.textContent = matchingOpt.textContent;
+                            }
+                        }
+                    });
+                };
+            }
+
+            const originalOpen = window.openModal;
+            if(originalOpen) {
+                window.openModal = function() {
+                    originalOpen();
+                    // Reset custom selects for new
+                    if(!document.getElementById('holId').value) {
+                        document.querySelectorAll('.custom-select-wrapper').forEach(wrapper => {
+                            if(wrapper.id === "yearFilterWrapper") return; // skip year filter
+                            const hiddenInput = wrapper.querySelector('input[type="hidden"]');
+                            const display = wrapper.querySelector('.selected-display');
+                            const options = wrapper.querySelectorAll('.custom-option');
+                            if(hiddenInput && display && options.length > 0) {
+                                options.forEach(opt => opt.classList.remove('selected'));
+                                options[0].classList.add('selected');
+                                hiddenInput.value = options[0].getAttribute('data-value');
+                                display.textContent = options[0].textContent;
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
