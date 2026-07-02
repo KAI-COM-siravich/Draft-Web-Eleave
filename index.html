@@ -113,7 +113,7 @@
             <div class="w-10 h-10 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-300">
                 <i class="fa-regular fa-user text-xl md:text-2xl text-brand-dark"></i>
             </div>
-            <span class="hidden md:block font-medium tracking-wide text-gray-200 group-hover:text-white transition-colors">Netcube AutoSync</span>
+            <span id="profile-name" class="hidden md:block font-medium tracking-wide text-gray-200 group-hover:text-white transition-colors">Netcube AutoSync</span>
         </div>
         
         <!-- Top Center: Netcube Logo -->
@@ -187,7 +187,7 @@
     <!-- Bottom Footer Dock -->
     <footer class="w-full pb-6 pt-4 px-6 relative z-10 flex justify-center">
         <!-- Floating Dock Style -->
-        <div class="glass rounded-[2rem] p-2.5 flex flex-row items-center gap-2 md:gap-3 w-full max-w-[700px] mx-auto justify-between md:justify-center border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.4)] relative">
+        <div class="glass rounded-[2rem] p-2.5 flex flex-row items-center gap-2 md:gap-3 w-full max-w-[850px] mx-auto justify-between md:justify-center border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.4)] relative">
             <!-- Decorative line -->
             <div class="absolute -top-[1px] left-1/2 -translate-x-1/2 w-1/3 h-[2px] bg-gradient-to-r from-transparent via-white/40 to-transparent"></div>
             
@@ -218,8 +218,69 @@
                 </div>
                 <span class="text-sm md:text-lg font-medium tracking-wide text-gray-300 group-hover:text-white transition-colors mt-2 md:mt-0">Guide</span>
             </a>
+            
+            <div id="settings-divider" class="w-px h-12 bg-white/10 hidden md:block"></div>
+            
+            <!-- Item 4 (Settings) -->
+            <a id="settings-link" href="settings.html" class="flex-1 md:flex-none flex flex-col md:flex-row items-center justify-center px-4 md:px-6 py-2.5 md:py-3 rounded-2xl glass-hover transition-all-smooth cursor-pointer group gap-2 md:gap-3 no-underline">
+                <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors shadow-inner border border-white/5">
+                    <i class="fa-solid fa-gear text-xl md:text-2xl text-gray-400 group-hover:scale-110 transition-transform"></i>
+                </div>
+                <span class="text-sm md:text-lg font-medium tracking-wide text-gray-300 group-hover:text-white transition-colors mt-2 md:mt-0">Settings</span>
+            </a>
         </div>
     </footer>
+
+    <!-- Demo Mode Toggle Button -->
+    <button id="demoToggleBtn" class="fixed bottom-6 right-6 z-50 glass px-4 py-3 rounded-full flex items-center gap-2 text-white glass-hover transition-all-smooth group shadow-2xl">
+        <i class="fa-solid fa-wand-magic-sparkles text-brand-accent group-hover:rotate-12 transition-transform"></i>
+        <span class="font-medium text-sm">Demo Mode</span>
+    </button>
+
+    <!-- Demo Mode Panel -->
+    <div id="demoPanel" class="fixed bottom-20 right-6 z-50 w-80 glass rounded-2xl p-5 transform translate-y-4 opacity-0 pointer-events-none transition-all duration-300 shadow-2xl border border-white/10">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-white font-semibold flex items-center gap-2">
+                <i class="fa-solid fa-user-astronaut text-brand-accent"></i>
+                Select Role
+            </h3>
+            <button id="closeDemoBtn" class="text-gray-400 hover:text-white transition-colors">
+                <i class="fa-solid fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="space-y-2 mb-5">
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 cursor-pointer transition-colors border border-transparent hover:border-white/10">
+                <input type="radio" name="demo-role" value="employee" class="text-brand-accent focus:ring-brand-accent bg-brand-dark border-gray-600" checked>
+                <span class="text-gray-200 text-sm">Employee</span>
+            </label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 cursor-pointer transition-colors border border-transparent hover:border-white/10">
+                <input type="radio" name="demo-role" value="manager" class="text-brand-accent focus:ring-brand-accent bg-brand-dark border-gray-600">
+                <span class="text-gray-200 text-sm">Manager</span>
+            </label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 cursor-pointer transition-colors border border-transparent hover:border-white/10">
+                <input type="radio" name="demo-role" value="hr" class="text-brand-accent focus:ring-brand-accent bg-brand-dark border-gray-600">
+                <span class="text-gray-200 text-sm">HR</span>
+            </label>
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 cursor-pointer transition-colors border border-transparent hover:border-white/10">
+                <input type="radio" name="demo-role" value="admin" class="text-brand-accent focus:ring-brand-accent bg-brand-dark border-gray-600">
+                <span class="text-gray-200 text-sm">System Admin</span>
+            </label>
+        </div>
+
+        <div class="border-t border-white/10 pt-4">
+            <h4 class="text-gray-300 text-xs font-semibold mb-3 uppercase tracking-wider">Quick Links</h4>
+            <div class="grid grid-cols-2 gap-3">
+                <a href="index.html" class="text-xs text-gray-400 hover:text-brand-accent transition-colors flex items-center gap-1.5"><i class="fa-solid fa-house w-4"></i> Home</a>
+                <a href="e-leave.html" class="text-xs text-gray-400 hover:text-brand-accent transition-colors flex items-center gap-1.5"><i class="fa-solid fa-calendar-day w-4"></i> E-Leave</a>
+                <a href="approvals.html" class="text-xs text-gray-400 hover:text-brand-accent transition-colors flex items-center gap-1.5"><i class="fa-regular fa-circle-check w-4"></i> Approvals</a>
+                <a href="yearly-holidays.html" class="text-xs text-gray-400 hover:text-brand-accent transition-colors flex items-center gap-1.5"><i class="fa-regular fa-calendar w-4"></i> Holidays</a>
+                <a href="employees.html" class="text-xs text-gray-400 hover:text-brand-accent transition-colors flex items-center gap-1.5"><i class="fa-solid fa-user-group w-4"></i> Employees</a>
+                <a href="guide.html" class="text-xs text-gray-400 hover:text-brand-accent transition-colors flex items-center gap-1.5"><i class="fa-solid fa-info w-4"></i> Guide</a>
+                <a id="demo-link-settings" href="settings.html" class="text-xs text-gray-400 hover:text-brand-accent transition-colors flex items-center gap-1.5"><i class="fa-solid fa-gear w-4"></i> Settings</a>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Simple script to update date and time for the top right corner
@@ -237,6 +298,132 @@
         
         updateTime();
         setInterval(updateTime, 10000);
+
+        // Demo Mode Script
+        const demoToggleBtn = document.getElementById('demoToggleBtn');
+        const demoPanel = document.getElementById('demoPanel');
+        const closeDemoBtn = document.getElementById('closeDemoBtn');
+        const roleRadios = document.querySelectorAll('input[name="demo-role"]');
+
+        function toggleDemoPanel() {
+            if (demoPanel.classList.contains('opacity-0')) {
+                demoPanel.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+                demoPanel.classList.add('opacity-100', 'translate-y-0');
+            } else {
+                demoPanel.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+                demoPanel.classList.remove('opacity-100', 'translate-y-0');
+            }
+        }
+
+        demoToggleBtn.addEventListener('click', toggleDemoPanel);
+        closeDemoBtn.addEventListener('click', toggleDemoPanel);
+
+        // Load saved role
+        const savedRole = localStorage.getItem('demoRole') || 'employee';
+        const activeRadio = document.querySelector(`input[name="demo-role"][value="${savedRole}"]`);
+        if(activeRadio) activeRadio.checked = true;
+
+        // Apply role effects (Update Profile name based on role)
+        function applyRole(role) {
+            localStorage.setItem('demoRole', role);
+            const profileName = document.getElementById('profile-name');
+            if (profileName) {
+                const roleNames = {
+                    'employee': 'John Doe (Employee)',
+                    'manager': 'Sarah Smith (Manager)',
+                    'hr': 'Mike Johnson (HR)',
+                    'admin': 'Admin System'
+                };
+                profileName.textContent = roleNames[role] || 'Netcube AutoSync';
+            }
+            
+            // Here you could also hide/show UI elements based on role
+            // e.g. hide 'Approvals' for employee
+            const approvalsLink = document.querySelector('a[href="approvals.html"].glass');
+            if (approvalsLink) {
+                if (role === 'employee') {
+                    approvalsLink.style.display = 'none';
+                } else {
+                    approvalsLink.style.display = 'block';
+                }
+            }
+
+            // Hide/show Settings link in footer and quick links
+            const settingsLink = document.getElementById('settings-link');
+            const settingsDivider = document.getElementById('settings-divider');
+            const demoSettingsLink = document.getElementById('demo-link-settings');
+            
+            if (settingsLink && settingsDivider) {
+                if (role === 'hr' || role === 'admin') {
+                    settingsLink.style.display = '';
+                    settingsDivider.style.display = '';
+                } else {
+                    settingsLink.style.display = 'none';
+                    settingsDivider.style.display = 'none';
+                }
+            }
+            if (demoSettingsLink) {
+                if (role === 'hr' || role === 'admin') {
+                    demoSettingsLink.style.display = '';
+                } else {
+                    demoSettingsLink.style.display = 'none';
+                }
+            }
+        }
+        
+        applyRole(savedRole);
+
+        roleRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                applyRole(e.target.value);
+            });
+        });
+    </script>
+
+    <!-- Global Toggle Clear Script -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // 1. Radio Buttons Toggle
+        document.body.addEventListener('mousedown', (e) => {
+            if (e.target.matches('input[type="radio"]')) {
+                const radio = e.target;
+                if (!radio.closest('form, #modalContainer, .modal')) {
+                    radio.dataset.wasChecked = radio.checked;
+                }
+            }
+        });
+        
+        document.body.addEventListener('click', (e) => {
+            if (e.target.matches('input[type="radio"]')) {
+                const radio = e.target;
+                if (!radio.closest('form, #modalContainer, .modal')) {
+                    if (radio.dataset.wasChecked === 'true') {
+                        radio.checked = false;
+                        radio.dataset.wasChecked = 'false';
+                        radio.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                }
+            }
+        });
+
+        // 2. Flatpickr Click to Clear
+        document.body.addEventListener('click', (e) => {
+            if (e.target.classList.contains('flatpickr-day') && (e.target.classList.contains('selected') || e.target.classList.contains('startRange') || e.target.classList.contains('endRange'))) {
+                const openCalendar = e.target.closest('.flatpickr-calendar');
+                if (openCalendar) {
+                    document.querySelectorAll('.flatpickr-input, .date-picker, .date-picker-modal').forEach(input => {
+                        const fp = input._flatpickr;
+                        if (fp && fp.calendarContainer === openCalendar) {
+                            if (!input.closest('form, #modalContainer, .modal')) {
+                                setTimeout(() => { fp.clear(); }, 10);
+                            }
+                        }
+                    });
+                }
+            }
+        }, true);
+    });
     </script>
 </body>
+
 </html>

@@ -99,18 +99,170 @@
         .transition-all-smooth {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
-        /* Custom Dropdown & Flatpickr Overrides */
-        .flatpickr-calendar.dark {
-            background: rgba(15, 23, 42, 0.95);
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+/* --- Exact Shadcn UI Dark Mode Replica for Flatpickr --- */
+        .flatpickr-calendar {
+            background: #020817 !important; /* Shadcn slate-950 */
+            border: 1px solid #1e293b !important; /* Shadcn slate-800 */
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+            border-radius: 0.5rem !important; /* rounded-md */
+            padding: 0.75rem !important; /* p-3 */
+            margin-top: 4px !important;
+            width: 276px !important; /* standard shadcn calendar width */
+            font-family: inherit !important;
         }
-        .flatpickr-calendar.dark .flatpickr-day.selected {
-            background: #00d2ff;
-            border-color: #00d2ff;
+        .flatpickr-calendar::before, .flatpickr-calendar::after {
+            display: none !important;
+        }
+        .flatpickr-months {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            margin-bottom: 0.5rem !important;
+            position: relative !important;
+            height: 28px !important;
+        }
+        .flatpickr-month {
+            height: 28px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            color: #f8fafc !important;
+            fill: #f8fafc !important;
+        }
+        .flatpickr-current-month {
+            font-size: 0.875rem !important;
+            font-weight: 500 !important;
+            color: #f8fafc !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 0 !important;
+            width: auto !important;
+            position: static !important;
+            left: auto !important;
+            transform: none !important;
+        }
+        .flatpickr-current-month .cur-month {
+            font-weight: 500 !important;
+            margin-left: 0 !important;
+        }
+        .flatpickr-current-month .numInputWrapper {
+            width: 4ch !important;
+            margin-left: 0.25rem !important;
+        }
+        .flatpickr-current-month input.cur-year {
+            font-weight: 500 !important;
+            color: #f8fafc !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            background: transparent !important;
+            border: none !important;
+            cursor: text;
+        }
+        .flatpickr-current-month .arrowUp, .flatpickr-current-month .arrowDown {
+            display: none !important; /* Hide year spin arrows */
+        }
+        .flatpickr-prev-month, .flatpickr-next-month {
+            position: absolute !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            height: 28px !important;
+            width: 28px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            border: 1px solid #1e293b !important;
+            border-radius: 0.375rem !important;
+            background: transparent !important;
+            padding: 0 !important;
+            color: #f8fafc !important;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+            z-index: 10 !important;
+        }
+        .flatpickr-prev-month { left: 0 !important; }
+        .flatpickr-next-month { right: 0 !important; }
+        .flatpickr-prev-month:hover, .flatpickr-next-month:hover {
+            opacity: 1 !important;
+            background: #1e293b !important;
+        }
+        .flatpickr-prev-month svg, .flatpickr-next-month svg {
+            width: 16px !important;
+            height: 16px !important;
+            fill: none !important;
+            stroke: currentColor !important;
+        }
+        .flatpickr-weekdays {
+            display: flex !important;
+            height: auto !important;
+            margin-bottom: 0.25rem !important;
+            background: transparent !important;
+        }
+        .flatpickr-weekdaycontainer {
+            display: flex !important;
+            width: 100% !important;
+            justify-content: space-between !important;
+        }
+        span.flatpickr-weekday {
+            color: #94a3b8 !important; /* muted-foreground */
+            font-size: 0.8rem !important;
+            font-weight: 400 !important;
+            width: 36px !important;
+            flex: 0 0 36px !important;
+            text-align: center !important;
+            background: transparent !important;
+        }
+        .flatpickr-days {
+            width: 100% !important;
+            background: transparent !important;
+        }
+        .dayContainer {
+            width: 100% !important;
+            min-width: 0 !important;
+            max-width: none !important;
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 0px !important;
+            justify-content: space-between !important;
+        }
+        .flatpickr-day {
+            color: #f8fafc !important;
+            font-size: 0.875rem !important;
+            font-weight: 400 !important;
+            width: 36px !important;
+            max-width: 36px !important;
+            height: 36px !important;
+            line-height: 36px !important;
+            border-radius: 0.375rem !important;
+            border: none !important;
+            background: transparent !important;
+            margin-top: 2px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            box-shadow: none !important;
+        }
+        .flatpickr-day:hover {
+            background: #1e293b !important; /* accent */
+            color: #f8fafc !important;
+        }
+        .flatpickr-day.selected {
+            background: #f8fafc !important; /* primary */
+            color: #020817 !important; /* primary-foreground */
+            font-weight: 500 !important;
+            border: none !important;
+        }
+        .flatpickr-day.today {
+            background: #1e293b !important;
+            color: #f8fafc !important;
+            border: none !important;
+        }
+        .flatpickr-day.prevMonthDay, .flatpickr-day.nextMonthDay {
+            color: #475569 !important; /* muted */
+        }
+        .flatpickr-wrapper {
+            display: block !important;
+            width: 100% !important;
         }
         .custom-select-wrapper {
             position: relative;
@@ -126,19 +278,19 @@
             left: 0;
             right: 0;
             margin-top: 8px;
-            background: rgba(15, 23, 42, 0.95);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: #040833; /* Darker to match brand */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-radius: 0.75rem;
-            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
             z-index: 50;
             opacity: 0;
             visibility: hidden;
             transform: translateY(-10px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             max-height: 250px;
             overflow-y: auto;
+            padding: 0.25rem;
         }
         .custom-select.open ~ .custom-options {
             opacity: 1;
@@ -146,40 +298,33 @@
             transform: translateY(0);
         }
         .custom-option {
-            padding: 12px 16px;
-            color: #d1d5db;
-            transition: all 0.2s;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        .custom-option:hover {
-            background: rgba(255,255,255,0.1);
-            color: white;
-        }
-        .custom-option.selected {
-            color: #00d2ff;
-            background: rgba(0, 210, 255, 0.1);
-        }
-        
-        ::-webkit-calendar-picker-indicator {
-            filter: invert(1);
-            opacity: 0.5;
+            padding: 0.375rem 0.5rem;
+            color: #f8fafc;
+            font-size: 0.875rem;
+            border-radius: 0.25rem;
             cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 2px;
         }
-        ::-webkit-calendar-picker-indicator:hover {
-            opacity: 1;
+        .custom-option:last-child {
+            margin-bottom: 0;
         }
-        
-        /* Custom scrollbar for lists */
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 4px;
+        .custom-option:hover, .custom-option.selected {
+            background: rgba(255, 255, 255, 0.08);
+            color: #00d2ff;
         }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
+        .custom-options::-webkit-scrollbar {
+            width: 6px;
         }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
+        .custom-options::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-options::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+        .custom-options::-webkit-scrollbar-thumb:hover {
+            background: #475569;
         }
     </style>
 </head>
@@ -306,9 +451,9 @@
                     </div>
                     
                     <div class="relative custom-select-wrapper">
-                        <div class="custom-select w-full glass text-xs font-semibold text-gray-300 py-3 pl-4 pr-10 rounded-xl outline-none focus:ring-2 focus:ring-brand-accent/50 transition-all flex items-center justify-between">
-                            <span class="selected-display truncate">All Leave Types</span>
-                            <i class="fa-solid fa-chevron-down text-brand-accent text-[10px] pointer-events-none transition-transform duration-300"></i>
+                        <div class="custom-select w-full glass text-sm font-normal text-gray-200 py-3 pl-4 pr-10 rounded-xl outline-none focus:ring-2 focus:ring-brand-accent/50 transition-all cursor-pointer border border-white/10 hover:bg-white/5 shadow-sm">
+                            <span class="selected-display truncate block">All Leave Types</span>
+                            <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-[12px] opacity-70 transition-transform duration-300"></i>
                         </div>
                         <input type="hidden" id="filterType" value="All" onchange="renderTable()">
                         <div class="custom-options">
@@ -320,9 +465,9 @@
                     </div>
                     
                     <div class="relative custom-select-wrapper">
-                        <div class="custom-select w-full glass text-xs font-semibold text-gray-300 py-3 pl-4 pr-10 rounded-xl outline-none focus:ring-2 focus:ring-brand-accent/50 transition-all flex items-center justify-between">
-                            <span class="selected-display truncate">Pending</span>
-                            <i class="fa-solid fa-chevron-down text-brand-accent text-[10px] pointer-events-none transition-transform duration-300"></i>
+                        <div class="custom-select w-full glass text-sm font-normal text-gray-200 py-3 pl-4 pr-10 rounded-xl outline-none focus:ring-2 focus:ring-brand-accent/50 transition-all cursor-pointer border border-white/10 hover:bg-white/5 shadow-sm">
+                            <span class="selected-display truncate block">Pending</span>
+                            <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-[12px] opacity-70 transition-transform duration-300"></i>
                         </div>
                         <input type="hidden" id="filterStatus" value="Pending" onchange="renderTable()">
                         <div class="custom-options">
@@ -825,6 +970,19 @@
                     option.addEventListener('click', (e) => {
                         e.stopPropagation();
                         const value = option.getAttribute('data-value');
+                        // TOGGLE CLEAR LOGIC
+                        if (hiddenInput.value === value && value !== "" && !wrapper.closest('form, #modalContainer, .modal')) {
+                            const defaultOpt = Array.from(options).find(opt => opt.getAttribute('data-value') === '');
+                            display.textContent = defaultOpt ? defaultOpt.textContent : 'All';
+                            hiddenInput.value = '';
+                            options.forEach(opt => opt.classList.remove('selected'));
+                            if (defaultOpt) defaultOpt.classList.add('selected');
+                            select.classList.remove('open');
+                            if (hiddenInput.onchange) hiddenInput.onchange(new Event('change'));
+                            hiddenInput.dispatchEvent(new Event('change'));
+                            return;
+                        }
+                        
                         display.textContent = option.textContent;
                         hiddenInput.value = value;
                         
@@ -845,5 +1003,51 @@
             });
         });
     </script>
+
+    <!-- Global Toggle Clear Script -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // 1. Radio Buttons Toggle
+        document.body.addEventListener('mousedown', (e) => {
+            if (e.target.matches('input[type="radio"]')) {
+                const radio = e.target;
+                if (!radio.closest('form, #modalContainer, .modal')) {
+                    radio.dataset.wasChecked = radio.checked;
+                }
+            }
+        });
+        
+        document.body.addEventListener('click', (e) => {
+            if (e.target.matches('input[type="radio"]')) {
+                const radio = e.target;
+                if (!radio.closest('form, #modalContainer, .modal')) {
+                    if (radio.dataset.wasChecked === 'true') {
+                        radio.checked = false;
+                        radio.dataset.wasChecked = 'false';
+                        radio.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                }
+            }
+        });
+
+        // 2. Flatpickr Click to Clear
+        document.body.addEventListener('click', (e) => {
+            if (e.target.classList.contains('flatpickr-day') && (e.target.classList.contains('selected') || e.target.classList.contains('startRange') || e.target.classList.contains('endRange'))) {
+                const openCalendar = e.target.closest('.flatpickr-calendar');
+                if (openCalendar) {
+                    document.querySelectorAll('.flatpickr-input, .date-picker, .date-picker-modal').forEach(input => {
+                        const fp = input._flatpickr;
+                        if (fp && fp.calendarContainer === openCalendar) {
+                            if (!input.closest('form, #modalContainer, .modal')) {
+                                setTimeout(() => { fp.clear(); }, 10);
+                            }
+                        }
+                    });
+                }
+            }
+        }, true);
+    });
+    </script>
 </body>
+
 </html>
