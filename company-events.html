@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yearly Holidays - E-Leave</title>
+    <title>Company Events - E-Leave</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -363,7 +363,7 @@
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
                 <h2 class="text-brand-accent font-bold tracking-widest text-sm uppercase mb-2">Company Schedule</h2>
-                <h1 class="text-5xl md:text-6xl font-black text-white drop-shadow-lg">Yearly Holidays</h1>
+                <h1 class="text-5xl md:text-6xl font-black text-white drop-shadow-lg">Company Events</h1>
             </div>
             
             <div class="glass px-6 py-3 rounded-2xl flex items-center gap-4 relative custom-select-wrapper">
@@ -380,14 +380,14 @@
             </div>
         </div>
 
-        <!-- Public Holidays Section -->
+        <!-- Company Events Section -->
         <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-brand-accent/20 flex items-center justify-center text-brand-accent">
-                <i class="fa-solid fa-calendar-check"></i>
+            <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">
+                <i class="fa-solid fa-users"></i>
             </div>
-            Public Holidays
+            Company Events
         </h2>
-        <div id="holidays-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div id="events-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             <!-- Rendered by JS -->
         </div>
 
@@ -397,7 +397,7 @@
     <div id="holidayModal" class="fixed inset-0 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 bg-black/60 backdrop-blur-sm p-4 overflow-y-auto">
         <div class="modal-glass w-full max-w-2xl rounded-[2rem] p-6 md:p-8 shadow-2xl transform scale-95 transition-transform duration-300 my-8" id="modalContent">
             <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
-                <h2 id="modalTitle" class="text-2xl font-bold text-white">Add Holiday</h2>
+                <h2 id="modalTitle" class="text-2xl font-bold text-white">Add Event</h2>
                 <button type="button" onclick="closeModal()" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/20 transition-colors">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
@@ -413,27 +413,18 @@
                     </div>
 
                     <div>
-                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Holiday Date</label>
+                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Event Date</label>
                         <input type="text" id="holDate" required class="w-full bg-white/5 border border-white/10 text-white text-sm rounded-xl focus:ring-2 focus:ring-brand-accent/50 outline-none p-3 transition-all date-picker">
                     </div>
                     
                     <div>
-                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Holiday Name</label>
-                        <input type="text" id="holName" required class="w-full bg-white/5 border border-white/10 text-white text-sm rounded-xl focus:ring-2 focus:ring-brand-accent/50 outline-none p-3 transition-all" placeholder="e.g. New Year's Day">
+                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Event Name</label>
+                        <input type="text" id="holName" required class="w-full bg-white/5 border border-white/10 text-white text-sm rounded-xl focus:ring-2 focus:ring-brand-accent/50 outline-none p-3 transition-all" placeholder="e.g. Annual Townhall">
                     </div>
                     
-                    <div class="relative custom-select-wrapper">
-                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Holiday Type</label>
-                        <div class="custom-select w-full bg-white/5 border border-white/10 text-white text-sm rounded-xl focus:ring-2 focus:ring-brand-accent/50 outline-none p-3 transition-all flex justify-between items-center">
-                            <span class="selected-display">Public Holiday</span>
-                            <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-[12px] opacity-70 transition-transform duration-300"></i>
-                        </div>
-                        <input type="hidden" id="holType" value="Public Holiday" required>
-                        <div class="custom-options">
-                            <div class="custom-option selected" data-value="Public Holiday">Public Holiday</div>
-                            <div class="custom-option" data-value="Long Weekend">Long Weekend</div>
-                            <div class="custom-option" data-value="Special Observance">Special Observance</div>
-                        </div>
+                    <div class="relative custom-select-wrapper" style="display: none;">
+                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Event Type</label>
+                        <input type="hidden" id="holType" value="Company Event" required>
                     </div>
 
                     <div class="relative custom-select-wrapper">
@@ -470,14 +461,19 @@
                     </div>
 
                     <div class="md:col-span-2">
+                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Location / Google Maps URL</label>
+                        <input type="text" id="holLocation" class="w-full bg-white/5 border border-white/10 text-white text-sm rounded-xl focus:ring-2 focus:ring-brand-accent/50 outline-none p-3 transition-all" placeholder="e.g. https://maps.app.goo.gl/... or 'Main Hall'">
+                    </div>
+
+                    <div class="md:col-span-2">
                         <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Description / Notes</label>
-                        <textarea id="holNotes" rows="3" class="w-full bg-white/5 border border-white/10 text-white text-sm rounded-xl focus:ring-2 focus:ring-brand-accent/50 outline-none p-3 transition-all resize-none custom-scrollbar" placeholder="Enter any specific details about this holiday..."></textarea>
+                        <textarea id="holNotes" rows="3" class="w-full bg-white/5 border border-white/10 text-white text-sm rounded-xl focus:ring-2 focus:ring-brand-accent/50 outline-none p-3 transition-all resize-none custom-scrollbar" placeholder="Enter any specific details about this event..."></textarea>
                     </div>
                 </div>
                 
                 <div class="flex gap-4 pt-4 border-t border-white/10">
                     <button type="button" onclick="closeModal()" class="w-1/3 py-3.5 rounded-xl border border-white/10 text-gray-300 hover:text-white hover:bg-white/5 transition-colors font-semibold">Cancel</button>
-                    <button type="submit" class="w-2/3 py-3.5 rounded-xl bg-gradient-to-r from-brand-accent to-brand-secondary hover:opacity-90 text-white shadow-[0_0_20px_rgba(0,210,255,0.3)] transition-all font-bold tracking-wide">Save Holiday Record</button>
+                    <button type="submit" class="w-2/3 py-3.5 rounded-xl bg-gradient-to-r from-brand-accent to-brand-secondary hover:opacity-90 text-white shadow-[0_0_20px_rgba(0,210,255,0.3)] transition-all font-bold tracking-wide">Save Event</button>
                 </div>
             </form>
         </div>
@@ -493,7 +489,7 @@
                         <span id="viewDay" class="text-3xl font-black text-white leading-none mt-1">--</span>
                     </div>
                     <div>
-                        <h2 id="viewName" class="text-3xl font-black text-white drop-shadow-md pr-8">Holiday Name</h2>
+                        <h2 id="viewName" class="text-3xl font-black text-white drop-shadow-md pr-8">Event Name</h2>
                         <div class="flex flex-wrap gap-2 mt-2">
                             <span id="viewTypeBadge" class="inline-block px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-white/10 text-white border border-white/20">Type</span>
                             <span id="viewStatusBadge" class="inline-block px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider">Status</span>
@@ -520,6 +516,12 @@
                                 <i class="fa-solid fa-users text-brand-accent"></i> <span>--</span>
                             </span>
                         </div>
+                        <div class="col-span-2">
+                            <span class="block text-[10px] text-gray-400 uppercase tracking-widest mb-1">Location</span>
+                            <div id="viewLocation" class="text-sm font-semibold text-white flex items-center gap-2 mt-1">
+                                <i class="fa-solid fa-map-location-dot text-brand-accent"></i> <span class="text-gray-500">Not specified</span>
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="border-t border-white/5 pt-5">
@@ -532,7 +534,7 @@
                 
                 <div class="mt-8 flex gap-3 border-t border-white/10 pt-6">
                     <button id="btnEditFromView" class="flex-1 py-3 rounded-xl border border-white/10 text-white hover:bg-white/10 transition-colors font-medium flex justify-center items-center gap-2">
-                        <i class="fa-solid fa-pen text-xs"></i> Edit Holiday
+                        <i class="fa-solid fa-pen text-xs"></i> Edit Event
                     </button>
                 </div>
             </div>
@@ -602,13 +604,13 @@
         }
 
         function renderGrid() {
-            const gridHolidays = document.getElementById('holidays-grid');
+            const gridHolidays = document.getElementById('events-grid');
             const selectedYear = document.getElementById('yearFilter').value;
             
             gridHolidays.innerHTML = '';
             
             const filteredHolidays = holidays
-                .filter(h => getYear(h.date) === selectedYear && h.type !== 'Company Event')
+                .filter(h => getYear(h.date) === selectedYear && h.type === 'Company Event')
                 .sort((a, b) => new Date(a.date) - new Date(b.date));
 
             const renderCard = (hol, gridTarget) => {
@@ -641,6 +643,7 @@
                         
                         <!-- Hover Action Buttons -->
                         <div class="absolute top-3 right-3 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+                            ${hol.location && hol.location.startsWith('http') ? `<a href="${hol.location}" target="_blank" onclick="event.stopPropagation();" class="w-7 h-7 rounded-full bg-brand-accent/20 hover:bg-brand-accent/50 text-brand-accent hover:text-white flex items-center justify-center transition-colors backdrop-blur-md border border-brand-accent/30" title="Google Maps"><i class="fa-solid fa-map-location-dot text-[10px]"></i></a>` : ''}
                             <button onclick="event.stopPropagation(); openModal(${hol.id})" class="w-7 h-7 rounded-full bg-black/40 hover:bg-brand-accent/50 text-white flex items-center justify-center transition-colors backdrop-blur-md border border-white/10" title="Edit">
                                 <i class="fa-solid fa-pen text-[10px]"></i>
                             </button>
@@ -670,14 +673,14 @@
 
             filteredHolidays.forEach(hol => renderCard(hol, gridHolidays));
 
-            // "Add Holiday" card
+            // "Add Event" card
             gridHolidays.innerHTML += `
                 <div onclick="openModal()" class="glass p-6 rounded-3xl flex items-center justify-center gap-4 glass-hover transition-all-smooth group text-center border-dashed border-2 border-white/20 hover:border-brand-accent/50 cursor-pointer min-h-[128px]">
                     <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-white/50 group-hover:text-brand-accent group-hover:bg-brand-accent/20 transition-all duration-300">
                         <i class="fa-solid fa-plus text-lg"></i>
                     </div>
                     <div class="text-left">
-                        <h3 class="text-lg font-bold text-gray-400 group-hover:text-white transition-colors">Add Holiday</h3>
+                        <h3 class="text-lg font-bold text-gray-400 group-hover:text-white transition-colors">Add Event</h3>
                         <p class="text-[11px] text-gray-500 mt-0.5">Create a new schedule</p>
                     </div>
                 </div>
@@ -692,7 +695,7 @@
         const form = document.getElementById('holidayForm');
 
         function openModal(id = null) {
-            document.getElementById('modalTitle').textContent = id ? 'Edit Holiday Record' : 'Add New Holiday';
+            document.getElementById('modalTitle').textContent = id ? 'Edit Event' : 'Add New Event';
             
             if (id) {
                 const hol = holidays.find(h => h.id === id);
@@ -703,9 +706,11 @@
                 document.getElementById('holStatus').value = hol.status || 'Confirmed';
                 document.getElementById('holDepts').value = hol.affectedDepts || 'All Departments';
                 document.getElementById('holNotes').value = hol.notes || '';
+                document.getElementById('holLocation').value = hol.location || '';
             } else {
                 form.reset();
                 document.getElementById('holId').value = '';
+                document.getElementById('holLocation').value = '';
                 const year = document.getElementById('yearFilter').value;
                 document.getElementById('holDate').value = `${year}-01-01`;
             }
@@ -746,6 +751,16 @@
             document.getElementById('viewFullDate').innerHTML = `<i class="fa-regular fa-calendar text-brand-accent"></i> <span>${getWeekday(hol.date)}, ${getMonthShort(hol.date)} ${getDay(hol.date)}, ${getYear(hol.date)}</span>`;
             document.getElementById('viewDepts').innerHTML = `<i class="fa-solid fa-users text-brand-accent"></i> <span>${hol.affectedDepts || 'All Departments'}</span>`;
             
+            let locHtml = '<span class="text-gray-500">Not specified</span>';
+            if (hol.location) {
+                if (hol.location.startsWith('http')) {
+                    locHtml = `<a href="${hol.location}" target="_blank" class="text-brand-accent hover:underline flex items-center gap-1.5"><i class="fa-solid fa-map-location-dot"></i> View on Google Maps</a>`;
+                } else {
+                    locHtml = `<i class="fa-solid fa-map-location-dot text-brand-accent"></i> <span>${hol.location}</span>`;
+                }
+            }
+            document.getElementById('viewLocation').innerHTML = locHtml;
+
             document.getElementById('viewNotes').textContent = hol.notes || 'No additional details provided.';
 
             const btnEdit = document.getElementById('btnEditFromView');
@@ -782,15 +797,16 @@
             const status = document.getElementById('holStatus').value;
             const affectedDepts = document.getElementById('holDepts').value;
             const notes = document.getElementById('holNotes').value;
+            const location = document.getElementById('holLocation').value;
             
             if (id) {
                 // Update
                 const index = holidays.findIndex(h => h.id === parseInt(id));
-                holidays[index] = { ...holidays[index], date, name, type, status, affectedDepts, notes };
+                holidays[index] = { ...holidays[index], date, name, type, status, affectedDepts, notes, location };
             } else {
                 // Add
                 const newId = holidays.length > 0 ? Math.max(...holidays.map(h => h.id)) + 1 : 1;
-                holidays.push({ id: newId, date, name, type, status, affectedDepts, notes });
+                holidays.push({ id: newId, date, name, type, status, affectedDepts, notes, location });
             }
 
             saveToStorage();
@@ -817,7 +833,7 @@
         }
 
         function deleteHoliday(id) {
-            if (confirm('Are you sure you want to completely remove this holiday record?')) {
+            if (confirm('Are you sure you want to completely remove this event record?')) {
                 holidays = holidays.filter(h => h.id !== id);
                 saveToStorage();
                 renderGrid();

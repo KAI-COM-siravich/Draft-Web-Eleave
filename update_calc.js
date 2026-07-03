@@ -60,15 +60,6 @@ content = content.replace(oldFlatpickr, newFlatpickr);
 
 // Add the calculateLeaveDays function to the script
 const jsCode = `
-    const companyHolidays = [
-        "2025-01-01", // New Year
-        "2025-04-13", "2025-04-14", "2025-04-15", // Songkran
-        "2025-05-01", // Labor Day
-        "2025-10-23", // Chulalongkorn Day
-        "2025-12-05", // Father's Day
-        "2025-12-31"  // New Year's Eve
-    ];
-
     function calculateLeaveDays() {
         const startInput = document.getElementById('leaveStartDate');
         const endInput = document.getElementById('leaveEndDate');
@@ -99,24 +90,48 @@ const jsCode = `
             durationMultiplier = 0.5;
         }
 
+        // Fetch holidays dynamically
+        let holidays = [];
+        let events = [];
+        try {
+            const storedData = JSON.parse(localStorage.getItem('eleave_holidays_v2'));
+            if (storedData && Array.isArray(storedData)) {
+                holidays = storedData.filter(h => h.type !== 'Company Event').map(h => h.date);
+                events = storedData.filter(h => h.type === 'Company Event').map(h => h.date);
+            } else {
+                // Fallback to defaults if no localStorage exists
+                holidays = [
+                    "2026-01-01", "2026-04-13", "2026-04-14", "2026-04-15",
+                    "2026-05-01", "2026-07-28", "2026-08-12", "2026-12-31"
+                ];
+            }
+        } catch(e) {
+            console.error("Error loading holidays for calculation:", e);
+        }
+
         let validDays = 0;
         let currentDate = new Date(start);
 
         while (currentDate <= end) {
             const dayOfWeek = currentDate.getDay();
-            // Skip weekends (0 = Sunday, 6 = Saturday)
-            if (dayOfWeek !== 0 && dayOfWeek !== 6) {
-                // Format date as YYYY-MM-DD
-                const yyyy = currentDate.getFullYear();
-                const mm = String(currentDate.getMonth() + 1).padStart(2, '0');
-                const dd = String(currentDate.getDate()).padStart(2, '0');
-                const formattedDate = \`\${yyyy}-\${mm}-\${dd}\`;
-                
-                // Skip company holidays
-                if (!companyHolidays.includes(formattedDate)) {
-                    validDays++;
+            const yyyy = currentDate.getFullYear();
+            const mm = String(currentDate.getMonth() + 1).padStart(2, '0');
+            const dd = String(currentDate.getDate()).padStart(2, '0');
+            const formattedDate = \`\${yyyy}-\${mm}-\${dd}\`;
+            
+            // If it's a company event, count it as a leave day even if it's weekend/holiday
+            if (events.includes(formattedDate)) {
+                validDays++;
+            } else {
+                // Skip weekends (0 = Sunday, 6 = Saturday)
+                if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+                    // Skip regular company holidays
+                    if (!holidays.includes(formattedDate)) {
+                        validDays++;
+                    }
                 }
             }
+            
             // Move to next day
             currentDate.setDate(currentDate.getDate() + 1);
         }

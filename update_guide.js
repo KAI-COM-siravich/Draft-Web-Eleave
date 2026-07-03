@@ -91,9 +91,32 @@ const newGuideContent = `        <!-- Accordion List -->
                     <div class="p-6 pt-4 text-gray-300 text-sm leading-relaxed">
                         <p class="mb-3">The <strong>Yearly Holidays</strong> page outlines all official company holidays:</p>
                         <ul class="list-disc pl-5 space-y-2 text-emerald-400/90 font-medium">
-                            <li><span class="text-gray-300 font-normal"><strong>Filter by Year & Location:</strong> Easily find holidays relevant to your specific branch or region.</span></li>
+                            <li><span class="text-gray-300 font-normal"><strong>Filter by Year:</strong> Easily find holidays for the current or upcoming years.</span></li>
                             <li><span class="text-gray-300 font-normal"><strong>Automated Calculations:</strong> These holidays are automatically excluded when you request a leave that spans across these dates.</span></li>
                             <li><span class="text-gray-300 font-normal"><strong>Admin Controls:</strong> HR and Admins can add, edit, or delete upcoming holidays from this page.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+        <!-- Item 4.5: Company Events -->
+            <div class="glass rounded-2xl overflow-hidden glass-hover guide-item">
+                <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between p-6 text-left focus:outline-none group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-purple-400 transition-colors guide-title">Company Events</h3>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-gray-500 transition-transform duration-300 chevron"></i>
+                </button>
+                <div class="accordion-content bg-black/20 border-t border-white/5">
+                    <div class="p-6 pt-4 text-gray-300 text-sm leading-relaxed">
+                        <p class="mb-3">The <strong>Company Events</strong> page details upcoming internal activities:</p>
+                        <ul class="list-disc pl-5 space-y-2 text-purple-400/90 font-medium">
+                            <li><span class="text-gray-300 font-normal"><strong>Track Events:</strong> View scheduled company gatherings, workshops, and activities.</span></li>
+                            <li><span class="text-gray-300 font-normal"><strong>Leave Calculation:</strong> Unlike Yearly Holidays, Company Events are treated as normal working days. If you request leave on an event day, it will consume your leave quota.</span></li>
+                            <li><span class="text-gray-300 font-normal"><strong>Admin Controls:</strong> HR and Admins can manage events and ensure everyone stays informed.</span></li>
                         </ul>
                     </div>
                 </div>
@@ -137,9 +160,8 @@ const newGuideContent = `        <!-- Accordion List -->
                     <div class="p-6 pt-4 text-gray-300 text-sm leading-relaxed">
                         <p class="mb-3">The <strong>Settings</strong> page allows you to personalize your E-Leave experience:</p>
                         <ul class="list-disc pl-5 space-y-2 text-blue-400/90 font-medium">
-                            <li><span class="text-gray-300 font-normal"><strong>General Preferences:</strong> Change display language and time zone settings.</span></li>
-                            <li><span class="text-gray-300 font-normal"><strong>Notifications:</strong> Enable or disable Email, In-App, and Line Notify alerts for leave approvals.</span></li>
-                            <li><span class="text-gray-300 font-normal"><strong>Appearance:</strong> Toggle between Dark Mode and Light Mode themes.</span></li>
+                            <li><span class="text-gray-300 font-normal"><strong>Core Settings:</strong> Configure Leave Types, Organization Structure, and Working Hours.</span></li>
+                            <li><span class="text-gray-300 font-normal"><strong>Admin Tools:</strong> Manage advanced features like Integrations, Security policies, and view System Logs (restricted to Admins only).</span></li>
                         </ul>
                     </div>
                 </div>

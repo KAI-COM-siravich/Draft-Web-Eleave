@@ -235,6 +235,22 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Setting Card 0: Company Information -->
+                <div onclick="openSetting('company-profile')" class="glass rounded-2xl p-6 transition-all-smooth hover:bg-white/5 group border border-white/5 cursor-pointer relative overflow-hidden">
+                    <div class="absolute -right-4 -bottom-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i class="fa-solid fa-building text-8xl text-brand-accent"></i>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-brand-accent/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-building text-brand-accent text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2 group-hover:text-brand-accent transition-colors relative z-10">Company Information</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4 relative z-10">Configure your company name, logo, and tagline.</p>
+                    <div class="flex items-center text-brand-accent text-sm font-medium gap-2 relative z-10">
+                        Manage <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </div>
+                </div>
+
                 <!-- Setting Card 1 -->
                 <div onclick="openSetting('leave-types')" class="glass rounded-2xl p-6 transition-all-smooth hover:bg-white/5 group border border-white/5 cursor-pointer relative overflow-hidden">
                     <div class="absolute -right-4 -bottom-4 opacity-10 group-hover:opacity-20 transition-opacity">
@@ -280,6 +296,23 @@
                     </div>
                 </div>
                 
+                
+                <!-- Setting Card Notifications -->
+                <div onclick="openSetting('notifications')" class="glass rounded-2xl p-6 transition-all-smooth hover:bg-white/5 group border border-white/5 cursor-pointer admin-only relative overflow-hidden">
+                    <div class="absolute -right-4 -bottom-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i class="fa-solid fa-bell text-8xl text-yellow-400"></i>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-yellow-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-bell text-yellow-400 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2 group-hover:text-yellow-400 transition-colors relative z-10">Notifications</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4 relative z-10">Manage Email alerts and system notification rules.</p>
+                    <div class="flex items-center text-yellow-400 text-sm font-medium gap-2 relative z-10">
+                        Manage <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </div>
+                    <div class="mt-4 inline-block px-2 py-1 bg-red-500/20 border border-red-500/30 text-red-400 text-[10px] rounded uppercase font-bold tracking-wider relative z-10">Admin Only</div>
+                </div>
+
                 <!-- Setting Card 4 -->
                 <div onclick="openSetting('integrations')" class="glass rounded-2xl p-6 transition-all-smooth hover:bg-white/5 group border border-white/5 cursor-pointer admin-only relative overflow-hidden">
                     <div class="absolute -right-4 -bottom-4 opacity-10 group-hover:opacity-20 transition-opacity">
@@ -291,6 +324,23 @@
                     <h3 class="text-xl font-semibold text-white mb-2 group-hover:text-orange-400 transition-colors relative z-10">Integrations</h3>
                     <p class="text-gray-400 text-sm leading-relaxed mb-4 relative z-10">Connect with external payroll systems, slack, or email notification servers.</p>
                     <div class="flex items-center text-orange-400 text-sm font-medium gap-2 relative z-10">
+                        Manage <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </div>
+                    <div class="mt-4 inline-block px-2 py-1 bg-red-500/20 border border-red-500/30 text-red-400 text-[10px] rounded uppercase font-bold tracking-wider relative z-10">Admin Only</div>
+                </div>
+
+                
+                <!-- Setting Card Authentication -->
+                <div onclick="openSetting('authentication')" class="glass rounded-2xl p-6 transition-all-smooth hover:bg-white/5 group border border-white/5 cursor-pointer admin-only relative overflow-hidden">
+                    <div class="absolute -right-4 -bottom-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i class="fa-solid fa-fingerprint text-8xl text-indigo-400"></i>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-fingerprint text-indigo-400 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2 group-hover:text-indigo-400 transition-colors relative z-10">Authentication</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4 relative z-10">Configure Single Sign-On (SSO), LDAP, and Two-Factor Authentication.</p>
+                    <div class="flex items-center text-indigo-400 text-sm font-medium gap-2 relative z-10">
                         Manage <i class="fa-solid fa-arrow-right text-xs"></i>
                     </div>
                     <div class="mt-4 inline-block px-2 py-1 bg-red-500/20 border border-red-500/30 text-red-400 text-[10px] rounded uppercase font-bold tracking-wider relative z-10">Admin Only</div>
@@ -340,6 +390,10 @@
                 </button>
 
                 <nav class="space-y-1">
+
+                    <button onclick="switchTab('company-profile')" id="nav-company-profile" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-gray-300 hover:bg-white/5 hover:text-white transition-colors">
+                        <i class="fa-solid fa-building text-brand-accent w-5 text-center"></i> Company Information
+                    </button>
                     <button onclick="switchTab('leave-types')" id="nav-leave-types" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-gray-300 hover:bg-white/5 hover:text-white transition-colors">
                         <i class="fa-solid fa-calendar-plus text-brand-accent w-5 text-center"></i> Leave Types
                     </button>
@@ -354,8 +408,16 @@
                         <span class="px-4 text-[10px] uppercase font-bold text-gray-500 tracking-wider">Admin Settings</span>
                     </div>
 
+                    
+                    <button onclick="switchTab('notifications')" id="nav-notifications" class="admin-only w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-gray-300 hover:bg-white/5 hover:text-white transition-colors">
+                        <i class="fa-solid fa-bell text-yellow-400 w-5 text-center"></i> Notifications
+                    </button>
                     <button onclick="switchTab('integrations')" id="nav-integrations" class="admin-only w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-gray-300 hover:bg-white/5 hover:text-white transition-colors">
                         <i class="fa-solid fa-link text-orange-400 w-5 text-center"></i> Integrations
+                    </button>
+                    
+                    <button onclick="switchTab('authentication')" id="nav-authentication" class="admin-only w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-gray-300 hover:bg-white/5 hover:text-white transition-colors">
+                        <i class="fa-solid fa-fingerprint text-indigo-400 w-5 text-center"></i> Authentication
                     </button>
                     <button onclick="switchTab('security')" id="nav-security" class="admin-only w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-gray-300 hover:bg-white/5 hover:text-white transition-colors">
                         <i class="fa-solid fa-shield-halved text-blue-400 w-5 text-center"></i> Security
@@ -369,6 +431,41 @@
             <!-- Content Area -->
             <div class="flex-1 glass rounded-2xl p-6 md:p-8 min-h-[600px] relative">
                 
+                
+                <!-- 0. Company Information Panel -->
+                <div id="panel-company-profile" class="setting-panel hidden">
+                    <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
+                        <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                            <i class="fa-solid fa-building text-brand-accent"></i> Company Information
+                        </h2>
+                    </div>
+                    
+                    <div class="w-full bg-white/5 border border-white/10 rounded-2xl p-6">
+                        <form id="form-company-profile" onsubmit="saveCompanyProfile(event)" class="space-y-5">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Company Logo (Image)</label>
+                                <div class="flex items-center gap-4">
+                                    <div id="cp-logo-preview" class="w-14 h-14 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center overflow-hidden shrink-0 shadow-inner">
+                                        <span class="text-gray-500 text-[10px] uppercase font-bold tracking-wider">None</span>
+                                    </div>
+                                    <input type="file" id="cp-input-logo" accept="image/*" class="w-full text-sm text-gray-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-white/10 file:text-white hover:file:bg-white/20 transition-all focus:outline-none">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-1">Company Name</label>
+                                <input type="text" id="cp-input-name" class="w-full bg-brand-dark/50 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-brand-accent transition-colors" placeholder="e.g. net cube" value="net cube">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-1">Tagline</label>
+                                <input type="text" id="cp-input-tagline" class="w-full bg-brand-dark/50 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-brand-accent transition-colors" placeholder="e.g. Innovation and Excellence" value="Innovation and Excellence">
+                            </div>
+                            <div class="pt-4 border-t border-white/10">
+                                <button type="submit" class="bg-brand-accent hover:bg-brand-secondary text-brand-dark hover:text-white transition-colors py-2.5 px-6 rounded-xl font-semibold shadow-[0_0_15px_rgba(0,210,255,0.3)]">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
                 <!-- 1. Leave Types Panel -->
                 <div id="panel-leave-types" class="setting-panel hidden">
                     <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
@@ -477,6 +574,77 @@
                     </form>
                 </div>
 
+                
+                <!-- Notifications Panel -->
+                <div id="panel-notifications" class="setting-panel hidden">
+                    <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
+                        <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                            <i class="fa-solid fa-bell text-yellow-400"></i> Notifications
+                        </h2>
+                    </div>
+                    
+                    <div class="space-y-6 w-full">
+                        <!-- Email Settings -->
+                        <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
+                                        <i class="fa-solid fa-envelope text-blue-400 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-white font-semibold">Email Alerts</h3>
+                                        <p class="text-xs text-gray-400">Send standard email notifications</p>
+                                    </div>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+                                </label>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-300 mb-1">SMTP Server</label>
+                                        <input type="text" value="smtp.mailgun.org" class="w-full bg-brand-dark/50 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-blue-400 transition-colors">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-300 mb-1">Port</label>
+                                        <input type="text" value="587" class="w-full bg-brand-dark/50 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-blue-400 transition-colors">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-300 mb-1">Username</label>
+                                        <input type="text" value="postmaster@yourdomain.com" class="w-full bg-brand-dark/50 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-blue-400 transition-colors">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-300 mb-1">Password</label>
+                                        <input type="password" value="****************" class="w-full bg-brand-dark/50 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-blue-400 transition-colors">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-300 mb-1">Sender Email (From)</label>
+                                        <input type="text" value="no-reply@yourdomain.com" class="w-full bg-brand-dark/50 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-blue-400 transition-colors">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-300 mb-1">Encryption</label>
+                                        <select class="w-full bg-brand-dark/50 border border-white/10 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-blue-400 transition-colors appearance-none">
+                                            <option value="tls" selected>TLS</option>
+                                            <option value="ssl">SSL</option>
+                                            <option value="none">None</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-end pt-2">
+                            <button class="bg-yellow-400 hover:bg-yellow-500 text-brand-dark font-semibold py-2.5 px-6 rounded-xl transition-colors shadow-[0_0_15px_rgba(250,204,21,0.3)]" onclick="showToast('Notification settings saved.', 'success')">Save Settings</button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- 4. Integrations Panel -->
                 <div id="panel-integrations" class="setting-panel hidden">
                     <div class="mb-6 border-b border-white/10 pb-4">
@@ -529,6 +697,78 @@
                             <button onclick="showToast('Payroll API Configuration opened.', 'info')" class="px-4 py-2 rounded-lg bg-orange-500/20 text-orange-400 border border-orange-500/30 hover:bg-orange-500/30 transition-colors text-sm font-semibold">
                                 Configure API
                             </button>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <!-- Authentication Panel -->
+                <div id="panel-authentication" class="setting-panel hidden">
+                    <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
+                        <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                            <i class="fa-solid fa-fingerprint text-indigo-400"></i> Authentication
+                        </h2>
+                    </div>
+                    
+                    <div class="space-y-6 w-full">
+                        <!-- SSO Providers -->
+                        <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+                            <h3 class="text-lg font-semibold text-white mb-4">Single Sign-On (SSO)</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-4 bg-brand-dark/50 border border-white/5 rounded-xl">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                                            <i class="fa-brands fa-google text-white text-xl"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-white font-medium">Google Workspace</h4>
+                                            <p class="text-xs text-gray-400">Allow users to log in with their Google accounts</p>
+                                        </div>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" class="sr-only peer" checked>
+                                        <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-500"></div>
+                                    </label>
+                                </div>
+                                <div class="flex items-center justify-between p-4 bg-brand-dark/50 border border-white/5 rounded-xl">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                                            <i class="fa-brands fa-microsoft text-white text-xl"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-white font-medium">Microsoft Entra ID</h4>
+                                            <p class="text-xs text-gray-400">Allow users to log in with Microsoft 365</p>
+                                        </div>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" class="sr-only peer">
+                                        <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-500"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2FA Settings -->
+                        <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center">
+                                        <i class="fa-solid fa-shield-halved text-indigo-400 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-white font-semibold">Two-Factor Authentication (2FA)</h3>
+                                        <p class="text-xs text-gray-400">Require 2FA for all administrator accounts</p>
+                                    </div>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-500"></div>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-end pt-2">
+                            <button class="bg-indigo-400 hover:bg-indigo-500 text-brand-dark font-semibold py-2.5 px-6 rounded-xl transition-colors shadow-[0_0_15px_rgba(129,140,248,0.3)]" onclick="showToast('Authentication settings saved.', 'success')">Save Settings</button>
                         </div>
                     </div>
                 </div>
@@ -779,7 +1019,7 @@
 
         function switchTab(panelId) {
             allPanels.forEach(panel => { panel.classList.add('hidden'); panel.classList.remove('block'); });
-            allNavBtns.forEach(btn => { btn.classList.remove('bg-white/10', 'text-white', 'border-l-4', 'border-brand-accent', 'border-purple-400', 'border-green-400', 'border-orange-400', 'border-blue-400', 'border-pink-400'); });
+            allNavBtns.forEach(btn => { btn.classList.remove('bg-white/10', 'text-white', 'border-l-4', 'border-brand-accent', 'border-purple-400', 'border-green-400', 'border-yellow-400', 'border-orange-400', 'border-blue-400', 'border-indigo-400', 'border-pink-400'); });
 
             const targetPanel = document.getElementById(`panel-${panelId}`);
             if (targetPanel) {
@@ -795,8 +1035,10 @@
                 let borderColor = 'border-brand-accent';
                 if(panelId === 'org-structure') borderColor = 'border-purple-400';
                 if(panelId === 'working-hours') borderColor = 'border-green-400';
-                if(panelId === 'integrations') borderColor = 'border-orange-400';
-                if(panelId === 'security') borderColor = 'border-blue-400';
+                if(panelId === 'notifications') borderColor = 'border-yellow-400';
+                  if(panelId === 'integrations') borderColor = 'border-orange-400';
+                if(panelId === 'authentication') borderColor = 'border-indigo-400';
+                  if(panelId === 'security') borderColor = 'border-blue-400';
                 if(panelId === 'system-logs') borderColor = 'border-pink-400';
                 
                 targetNav.classList.add('bg-white/10', 'text-white', 'border-l-4', borderColor);
@@ -1131,6 +1373,7 @@
         }, true);
     });
     </script>
+<script src="demo_mode.js"></script>
 </body>
 
 </html>
