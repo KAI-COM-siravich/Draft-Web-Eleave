@@ -350,7 +350,7 @@
         <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
             <div>
                 <h2 class="text-brand-accent font-bold tracking-widest text-sm uppercase mb-2">Manager Dashboard</h2>
-                <h1 class="text-5xl md:text-6xl font-black text-white drop-shadow-lg">Leave Approvals</h1>
+                <h1 class="text-5xl md:text-6xl font-black text-white drop-shadow-lg">Approvals</h1>
             </div>
             
             <div class="flex gap-4">
@@ -425,12 +425,12 @@
 
         </div>
 
-        <!-- Team Requests Section -->
+        <!-- Leave Requests Section -->
         <div>
             <!-- Filters Section -->
             <div class="flex flex-col gap-4 mb-6 border-b border-white/5 pb-6">
                 <div class="flex justify-between items-end mb-2">
-                    <h3 class="text-2xl font-bold text-white">Team Requests</h3>
+                    <h3 class="text-2xl font-bold text-white">Leave Approvals</h3>
                 </div>
                 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 w-full">
@@ -461,7 +461,6 @@
                             <div class="custom-option" data-value="Annual Leave">Annual Leave</div>
                             <div class="custom-option" data-value="Sick Leave">Sick Leave</div>
                             <div class="custom-option" data-value="Personal Leave">Personal Leave</div>
-                            <div class="custom-option" data-value="Overtime (OT)">Overtime (OT)</div>
                         </div>
                     </div>
                     
@@ -503,12 +502,49 @@
                 </div>
                 
                 <!-- Empty State -->
-                <div id="empty-state" class="hidden flex-col items-center justify-center py-16 text-center">
+                <div id="leave-empty-state" class="hidden flex-col items-center justify-center py-16 text-center">
                     <div class="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center text-emerald-400 mb-5 border border-white/10 shadow-inner">
                         <i class="fa-solid fa-check-double text-3xl"></i>
                     </div>
                     <p class="text-gray-300 font-bold text-xl">All caught up!</p>
                     <p class="text-gray-500 text-sm mt-2 max-w-sm">There are no leave requests matching your criteria at the moment.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overtime Requests Section -->
+        <div class="mt-10">
+            <div class="flex justify-between items-end mb-6">
+                <div>
+                    <h3 class="text-2xl font-bold text-white">Overtime Approvals</h3>
+                </div>
+            </div>
+
+            <div class="glass rounded-3xl overflow-hidden border border-white/10">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-[900px]">
+                        <thead>
+                            <tr class="bg-white/5 border-b border-white/5">
+                                <th class="p-5 text-xs font-bold text-gray-400 uppercase tracking-wider w-[25%]">Employee</th>
+                                <th class="p-5 text-xs font-bold text-gray-400 uppercase tracking-wider w-[20%]">OT Request</th>
+                                <th class="p-5 text-xs font-bold text-gray-400 uppercase tracking-wider">Date / Time</th>
+                                <th class="p-5 text-xs font-bold text-gray-400 uppercase tracking-wider w-[10%]">Hours</th>
+                                <th class="p-5 text-xs font-bold text-gray-400 uppercase tracking-wider w-[12%]">Status</th>
+                                <th class="p-5 text-xs font-bold text-gray-400 uppercase tracking-wider text-right w-[15%]">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ot-approvals-tbody" class="divide-y divide-white/5">
+                            <!-- Rendered by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="ot-empty-state" class="hidden flex-col items-center justify-center py-16 text-center">
+                    <div class="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center text-brand-accent mb-5 border border-white/10 shadow-inner">
+                        <i class="fa-solid fa-business-time text-3xl"></i>
+                    </div>
+                    <p class="text-gray-300 font-bold text-xl">No OT approvals found</p>
+                    <p class="text-gray-500 text-sm mt-2 max-w-sm">There are no overtime requests matching your criteria at the moment.</p>
                 </div>
             </div>
         </div>
@@ -524,7 +560,7 @@
                     <div class="w-8 h-8 rounded-full bg-brand-accent/20 flex items-center justify-center text-brand-accent">
                         <i class="fa-solid fa-file-signature"></i>
                     </div>
-                    Review Leave Request
+                    <span id="reviewModalTitle">Review Leave Request</span>
                 </h2>
                 <button type="button" onclick="closeReviewModal()" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/20 transition-colors">
                     <i class="fa-solid fa-xmark"></i>
@@ -569,12 +605,12 @@
 
                     <!-- Leave Type -->
                     <div class="flex flex-col gap-1.5 md:col-span-1">
-                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Leave Type</label>
+                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Request Type</label>
                         <input type="text" id="modalType" readonly class="w-full glass text-sm font-bold text-white py-3.5 px-4 rounded-xl outline-none border border-white/5 bg-white/5 cursor-not-allowed">
                     </div>
 
                     <!-- Duration (Radio styling but read-only) -->
-                    <div class="flex flex-col gap-3 md:col-span-2 mt-2">
+                    <div id="modalDurationGroup" class="flex flex-col gap-3 md:col-span-2 mt-2">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Duration</label>
                         <div class="flex items-center gap-6">
                             <div class="flex items-center gap-2 group">
@@ -614,7 +650,7 @@
                         <input type="text" id="modalDaysNum" readonly class="w-full glass text-sm font-bold text-brand-accent py-3 px-4 rounded-xl outline-none border border-white/5 bg-white/5 cursor-not-allowed">
                     </div>
 
-                    <div class="hidden md:block"></div>
+                    <div id="modalLayoutSpacer" class="hidden md:block"></div>
 
                     <!-- Reason -->
                     <div class="flex flex-col gap-1.5 md:col-span-1">
@@ -646,7 +682,7 @@
 
     <script>
         // Set today's date for logic
-        const todayDate = '2026-06-29';
+        const todayDate = '2026-07-06';
 
         // Load combined requests from localStorage
         const defaultRequests = [
@@ -662,16 +698,68 @@
             { id: 103, empName: 'Teera W.', dept: 'Marketing', empAvatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=Teera&backgroundColor=c0aede', empRole: 'Marketing Specialist', type: 'Personal Leave', reason: 'Renew driver license', startDate: '2026-07-02', endDate: '2026-07-02', dateStr: '02 Jul 2026', days: 1, status: 'Pending', typeIcon: 'fa-user-clock', icon: 'fa-user-clock', color: 'orange', requestedOn: '2026-06-28' },
             { id: 104, empName: 'Anon K.', dept: 'Engineering', empAvatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=Anon&backgroundColor=d1d4f9', empRole: 'DevOps Engineer', type: 'Annual Leave', reason: 'Moving to a new house', startDate: '2026-06-28', endDate: '2026-06-29', dateStr: '28 Jun - 29 Jun 2026', days: 2, status: 'Approved', typeIcon: 'fa-plane-departure', icon: 'fa-plane-departure', color: 'purple', requestedOn: '2026-06-20' },
             { id: 105, empName: 'Natthaya S.', dept: 'HR', empAvatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=Natthaya&backgroundColor=ffd5dc', empRole: 'HR Executive', type: 'Sick Leave', reason: 'Food poisoning', startDate: '2026-06-22', endDate: '2026-06-23', dateStr: '22 Jun - 23 Jun 2026', days: 2, status: 'Rejected', typeIcon: 'fa-notes-medical', icon: 'fa-notes-medical', color: 'emerald', requestedOn: '2026-06-22' },
-            { id: 106, empName: 'Wichai T.', dept: 'Design', empAvatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=Wichai&backgroundColor=c5f0c5', empRole: 'Graphic Designer', type: 'Annual Leave', reason: 'Vacation in Phuket', startDate: '2026-06-29', endDate: '2026-07-02', dateStr: '29 Jun - 02 Jul 2026', days: 4, status: 'Approved', typeIcon: 'fa-plane-departure', icon: 'fa-plane-departure', color: 'purple', requestedOn: '2026-06-15' }
+            { id: 106, empName: 'Wichai T.', dept: 'Design', empAvatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=Wichai&backgroundColor=c5f0c5', empRole: 'Graphic Designer', type: 'Annual Leave', reason: 'Vacation in Phuket', startDate: '2026-06-29', endDate: '2026-07-02', dateStr: '29 Jun - 02 Jul 2026', days: 4, status: 'Approved', typeIcon: 'fa-plane-departure', icon: 'fa-plane-departure', color: 'purple', requestedOn: '2026-06-15' },
+
+            // Approval demo mock data
+            { id: 201, empName: 'Praew S.', dept: 'Customer Success', empAvatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=Praew&backgroundColor=ffd5dc', empRole: 'Customer Success Lead', type: 'Annual Leave', reason: 'Child school orientation', startDate: '2026-07-06', endDate: '2026-07-07', dateStr: '06 Jul - 07 Jul 2026', days: 2, status: 'Pending', typeIcon: 'fa-plane-departure', icon: 'fa-plane-departure', color: 'purple', requestedOn: '2026-07-06' },
+            { id: 202, empName: 'Krit P.', dept: 'Engineering', empAvatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=Krit&backgroundColor=b6e3f4', empRole: 'Backend Engineer', type: 'Sick Leave', reason: 'Medical checkup after fever', startDate: '2026-07-06', endDate: '2026-07-06', dateStr: '06 Jul 2026', days: 1, status: 'Approved', typeIcon: 'fa-notes-medical', icon: 'fa-notes-medical', color: 'emerald', requestedOn: '2026-07-05', approvedOn: '2026-07-06' },
+            { id: 203, empName: 'Narin C.', dept: 'QA', empAvatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=Narin&backgroundColor=c0aede', empRole: 'QA Analyst', type: 'Personal Leave', reason: 'House repair appointment', startDate: '2026-07-06', endDate: '2026-07-06', dateStr: '06 Jul 2026', days: 1, status: 'Pending', typeIcon: 'fa-user-clock', icon: 'fa-user-clock', color: 'orange', requestedOn: '2026-07-06' },
+            { id: 204, empName: 'Mayuree L.', dept: 'Finance', empAvatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=Mayuree&backgroundColor=ffdfbf', empRole: 'Finance Officer', type: 'Annual Leave', reason: 'Month-end recovery break', startDate: '2026-07-03', endDate: '2026-07-06', dateStr: '03 Jul - 06 Jul 2026', days: 2, status: 'Approved', typeIcon: 'fa-plane-departure', icon: 'fa-plane-departure', color: 'purple', requestedOn: '2026-06-30', approvedOn: '2026-07-06' },
+            { id: 205, empName: 'Chanon R.', dept: 'Support', empAvatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=Chanon&backgroundColor=d1d4f9', empRole: 'Support Engineer', type: 'Overtime (OT)', reason: 'Production release monitoring', startDate: '2026-07-06', endDate: '2026-07-06', dateStr: '06 Jul 2026 (19:00 - 22:00)', days: 3, status: 'Pending', typeIcon: 'fa-business-time', icon: 'fa-business-time', color: 'blue', requestedOn: '2026-07-06' },
+            { id: 206, empName: 'Benjawan T.', dept: 'Sales', empAvatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=Benjawan&backgroundColor=c5f0c5', empRole: 'Account Executive', type: 'Sick Leave', reason: 'Food allergy treatment', startDate: '2026-07-07', endDate: '2026-07-07', dateStr: '07 Jul 2026', days: 1, status: 'Pending', typeIcon: 'fa-notes-medical', icon: 'fa-notes-medical', color: 'emerald', requestedOn: '2026-07-06' },
+            { id: 207, empName: 'Kanda V.', dept: 'HR', empAvatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=Kanda&backgroundColor=ffd5dc', empRole: 'People Operations', type: 'Personal Leave', reason: 'Visa document submission', startDate: '2026-07-01', endDate: '2026-07-01', dateStr: '01 Jul 2026', days: 1, status: 'Rejected', typeIcon: 'fa-user-clock', icon: 'fa-user-clock', color: 'orange', requestedOn: '2026-06-30' },
+            { id: 208, empName: 'Thanawat P.', dept: 'Engineering', empAvatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=Thanawat&backgroundColor=b6e3f4', empRole: 'Frontend Engineer', type: 'Annual Leave', reason: 'Training travel', startDate: '2026-07-14', endDate: '2026-07-15', dateStr: '14 Jul - 15 Jul 2026', days: 2, status: 'Pending', typeIcon: 'fa-plane-departure', icon: 'fa-plane-departure', color: 'purple', requestedOn: '2026-07-04' },
+            { id: 209, empName: 'Mali T.', dept: 'Engineering', empAvatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=Mali&backgroundColor=c0aede', empRole: 'Mobile Engineer', type: 'Annual Leave', reason: 'Family appointment', startDate: '2026-07-14', endDate: '2026-07-15', dateStr: '14 Jul - 15 Jul 2026', days: 2, status: 'Approved', typeIcon: 'fa-plane-departure', icon: 'fa-plane-departure', color: 'purple', requestedOn: '2026-07-01' },
+            { id: 210, empName: 'Somsak D.', dept: 'Operations', empAvatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=Somsak&backgroundColor=ffdfbf', empRole: 'Operations Coordinator', type: 'Overtime (OT)', reason: 'Warehouse stock count', startDate: '2026-07-04', endDate: '2026-07-04', dateStr: '04 Jul 2026 (09:00 - 13:00)', days: 4, status: 'Approved', typeIcon: 'fa-business-time', icon: 'fa-business-time', color: 'blue', requestedOn: '2026-07-03' },
+            { id: 211, type: 'Overtime (OT)', reason: 'Client migration support', startDate: '2026-07-06', endDate: '2026-07-06', dateStr: '06 Jul 2026 (18:30 - 21:30)', days: 3, status: 'Pending', typeIcon: 'fa-business-time', icon: 'fa-business-time', color: 'blue', empName: 'John Doe', dept: 'Engineer', empAvatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=John&backgroundColor=b6e3f4', empRole: 'Developer Engineer', requestedOn: '2026-07-06' },
+            { id: 212, type: 'Overtime (OT)', reason: 'Weekend data reconciliation', startDate: '2026-07-04', endDate: '2026-07-04', dateStr: '04 Jul 2026 (09:00 - 12:00)', days: 3, status: 'Approved', typeIcon: 'fa-business-time', icon: 'fa-business-time', color: 'blue', empName: 'John Doe', dept: 'Engineer', empAvatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=John&backgroundColor=b6e3f4', empRole: 'Developer Engineer', requestedOn: '2026-07-03', approvedOn: '2026-07-04' }
         ];
 
-        if (!localStorage.getItem('eleave_requests_v3')) {
-            localStorage.setItem('eleave_requests_v3', JSON.stringify(defaultRequests));
+        const requestSeedVersion = 4;
+        const requestSeedVersionKey = 'eleave_requests_seed_version';
+        const approvalDemoRequestIds = new Set([201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212]);
+
+        function loadSeededRequests() {
+            const storedRaw = localStorage.getItem('eleave_requests_v3');
+            if (!storedRaw) {
+                localStorage.setItem('eleave_requests_v3', JSON.stringify(defaultRequests));
+                localStorage.setItem(requestSeedVersionKey, String(requestSeedVersion));
+                return defaultRequests;
+            }
+
+            let storedRequests;
+            try {
+                storedRequests = JSON.parse(storedRaw);
+            } catch (error) {
+                storedRequests = null;
+            }
+            if (!Array.isArray(storedRequests)) {
+                localStorage.setItem('eleave_requests_v3', JSON.stringify(defaultRequests));
+                localStorage.setItem(requestSeedVersionKey, String(requestSeedVersion));
+                return defaultRequests;
+            }
+
+            const storedSeedVersion = Number(localStorage.getItem(requestSeedVersionKey) || '1');
+            const demoSeedRequests = defaultRequests.filter(request => approvalDemoRequestIds.has(request.id));
+            const shouldRefreshDemoRequests = storedSeedVersion < requestSeedVersion;
+            const baseRequests = shouldRefreshDemoRequests
+                ? storedRequests.filter(request => !approvalDemoRequestIds.has(request.id))
+                : storedRequests;
+            const missingSeedRequests = demoSeedRequests
+                .filter(request => !baseRequests.some(existing => existing.id === request.id));
+            if (shouldRefreshDemoRequests || missingSeedRequests.length > 0) {
+                const mergedRequests = [...baseRequests, ...missingSeedRequests];
+                localStorage.setItem('eleave_requests_v3', JSON.stringify(mergedRequests));
+                localStorage.setItem(requestSeedVersionKey, String(requestSeedVersion));
+                return mergedRequests;
+            }
+
+            return storedRequests;
         }
 
-        let approvalsData = JSON.parse(localStorage.getItem('eleave_requests_v3')).filter(r => r.empName !== 'Sarah Smith');
+        let approvalsData = loadSeededRequests().filter(r => r.empName !== 'Sarah Smith');
 
-        let approvedTodayCount = 0;
+        let approvedTodayCount = approvalsData.filter(r => r.status === 'Approved' && r.approvedOn === todayDate).length;
         let currentReviewId = null;
         let dashboardMode = 'onleave'; // 'onleave' or 'requests'
 
@@ -731,7 +819,7 @@
             // On Leave Today calculation
             const onLeaveData = {};
             approvalsData.forEach(r => {
-                if (r.status === 'Approved' && r.startDate <= todayDate && r.endDate >= todayDate) {
+                if (r.type !== 'Overtime (OT)' && r.status === 'Approved' && r.startDate <= todayDate && r.endDate >= todayDate) {
                     onLeaveData[r.dept] = (onLeaveData[r.dept] || 0) + 1;
                 }
             });
@@ -793,12 +881,15 @@
 
         // --- OVERLAP & MODAL LOGIC ---
         function checkOverlap(request) {
+            if (request.type === 'Overtime (OT)') return [];
+
             const reqStart = new Date(request.startDate);
             const reqEnd = new Date(request.endDate);
             
             // Find approved requests that overlap, excluding the person's own requests
             return approvalsData.filter(r => {
                 if(r.status !== 'Approved') return false;
+                if(r.type === 'Overtime (OT)') return false;
                 if(r.id === request.id) return false;
                 
                 const rStart = new Date(r.startDate);
@@ -814,19 +905,27 @@
             const req = approvalsData.find(r => r.id === id);
             if(!req) return;
 
+            document.getElementById('reviewModalTitle').textContent = req.type === 'Overtime (OT)' ? 'Review OT Request' : 'Review Leave Request';
+
             // Handle labels dynamically for OT
             const startDateGroup = document.getElementById('modalStartDate').closest('.flex-col');
             const endDateGroup = document.getElementById('modalEndDate').closest('.flex-col');
             const daysNumGroup = document.getElementById('modalDaysNum').closest('.flex-col');
+            const durationGroup = document.getElementById('modalDurationGroup');
+            const layoutSpacer = document.getElementById('modalLayoutSpacer');
 
             if (req.type === 'Overtime (OT)') {
-                startDateGroup.querySelector('label').textContent = 'OT Date';
+                startDateGroup.querySelector('label').textContent = 'OT Date / Time';
                 daysNumGroup.querySelector('label').textContent = 'Total OT Hours';
+                durationGroup.style.display = 'none';
                 endDateGroup.style.display = 'none';
+                layoutSpacer.style.display = 'none';
             } else {
                 startDateGroup.querySelector('label').textContent = 'Leave Start Date';
                 daysNumGroup.querySelector('label').textContent = 'Number Of Leave Days';
+                durationGroup.style.display = '';
                 endDateGroup.style.display = 'flex';
+                layoutSpacer.style.display = '';
             }
 
             document.getElementById('modalAvatar').src = req.empAvatar;
@@ -842,7 +941,7 @@
                 const d = new Date(dStr);
                 return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
             };
-            document.getElementById('modalStartDate').value = formatD(req.startDate);
+            document.getElementById('modalStartDate').value = req.type === 'Overtime (OT)' ? req.dateStr : formatD(req.startDate);
             document.getElementById('modalEndDate').value = formatD(req.endDate);
             document.getElementById('modalDaysNum').value = req.days;
             document.getElementById('modalReason').value = req.reason;
@@ -853,7 +952,10 @@
             const noOvSection = document.getElementById('noOverlapSection');
             const ovList = document.getElementById('overlapList');
             
-            if(overlaps.length > 0) {
+            if(req.type === 'Overtime (OT)') {
+                ovSection.classList.add('hidden');
+                noOvSection.classList.add('hidden');
+            } else if(overlaps.length > 0) {
                 ovSection.classList.remove('hidden');
                 noOvSection.classList.add('hidden');
                 ovList.innerHTML = '';
@@ -912,6 +1014,8 @@
             const found = allReqs.find(r => r.id === id);
             if(found) {
                 found.status = status;
+                if(status === 'Approved') found.approvedOn = todayDate;
+                if(status === 'Rejected') found.rejectedOn = todayDate;
                 localStorage.setItem('eleave_requests_v3', JSON.stringify(allReqs));
                 if(status === 'Approved') approvedTodayCount++;
                 closeReviewModal();
@@ -920,8 +1024,10 @@
         }
 
         function renderTable() {
-            const tbody = document.getElementById('approvals-tbody');
-            const emptyState = document.getElementById('empty-state');
+            const leaveTbody = document.getElementById('approvals-tbody');
+            const otTbody = document.getElementById('ot-approvals-tbody');
+            const leaveEmptyState = document.getElementById('leave-empty-state');
+            const otEmptyState = document.getElementById('ot-empty-state');
             
             const filterSearch = document.getElementById('filterSearch').value.toLowerCase();
             const filterDateFrom = document.getElementById('filterDateFrom').value;
@@ -929,10 +1035,10 @@
             const filterType = document.getElementById('filterType').value;
             const filterStatus = document.getElementById('filterStatus').value;
             
-            tbody.innerHTML = '';
-            
-            const filtered = approvalsData.filter(req => {
-                const matchType = filterType === 'All' || req.type === filterType;
+            leaveTbody.innerHTML = '';
+            otTbody.innerHTML = '';
+
+            const baseFiltered = approvalsData.filter(req => {
                 const matchStatus = filterStatus === 'All' || req.status === filterStatus;
                 
                 const searchStr = (req.empName + ' ' + req.dept + ' ' + req.type + ' ' + req.reason).toLowerCase();
@@ -946,76 +1052,90 @@
                     if (new Date(req.startDate) > new Date(filterDateTo)) matchDate = false;
                 }
                 
-                return matchType && matchStatus && matchSearch && matchDate;
+                return matchStatus && matchSearch && matchDate;
             });
 
-            if (filtered.length === 0) {
+            const leaveFiltered = baseFiltered.filter(req => {
+                if (req.type === 'Overtime (OT)') return false;
+                return filterType === 'All' || req.type === filterType;
+            });
+            const otFiltered = filterType === 'All'
+                ? baseFiltered.filter(req => req.type === 'Overtime (OT)')
+                : [];
+
+            renderRequestRows(leaveTbody, leaveEmptyState, leaveFiltered);
+            renderRequestRows(otTbody, otEmptyState, otFiltered);
+
+            updateStats();
+        }
+
+        function renderRequestRows(tbody, emptyState, requests) {
+            if (requests.length === 0) {
                 emptyState.classList.remove('hidden');
                 emptyState.classList.add('flex');
-            } else {
-                emptyState.classList.add('hidden');
-                emptyState.classList.remove('flex');
-                
-                filtered.forEach(req => {
-                    const st = styleMap[req.color];
-                    const statSt = statusStyleMap[req.status];
-                    const statIcon = statusIconMap[req.status];
-                    
-                    let actions = '';
-                    if(req.status === 'Pending') {
-                        actions = `
-                            <button onclick="openReviewModal(${req.id})" class="px-4 py-2 rounded-xl bg-brand-accent/20 hover:bg-brand-accent text-brand-accent hover:text-brand-dark transition-all shadow-inner font-bold text-[11px] uppercase tracking-wider flex items-center gap-2">
-                                Review <i class="fa-solid fa-arrow-right"></i>
-                            </button>
-                        `;
-                    } else {
-                        actions = `
-                            <button onclick="openReviewModal(${req.id})" class="text-gray-400 hover:text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors border border-white/10 bg-white/5" title="View Details">
-                                <i class="fa-solid fa-eye text-[12px]"></i>
-                            </button>
-                        `;
-                    }
-
-                    const row = `
-                        <tr class="hover:bg-white/5 transition-colors group cursor-pointer" onclick="openReviewModal(${req.id})">
-                            <td class="p-5">
-                                <div class="flex items-center gap-3">
-                                    <img src="${req.empAvatar}" class="w-10 h-10 rounded-full border-2 border-white/10 bg-white/5">
-                                    <div class="truncate">
-                                        <p class="text-sm font-bold text-white truncate">${req.empName}</p>
-                                        <p class="text-[11px] text-gray-500 mt-0.5 truncate uppercase tracking-widest font-semibold">${req.dept}</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="p-5">
-                                <div class="flex flex-col">
-                                    <p class="text-sm font-bold text-white truncate group-hover:text-brand-accent transition-colors flex items-center gap-2">
-                                        <i class="fa-solid ${req.typeIcon} ${st.iconText} text-xs"></i> ${req.type}
-                                    </p>
-                                    <p class="text-[11px] text-gray-400 mt-1 truncate">${req.reason}</p>
-                                </div>
-                            </td>
-                            <td class="p-5">
-                                <p class="text-sm text-gray-300 font-medium whitespace-nowrap">${req.dateStr}</p>
-                            </td>
-                            <td class="p-5">
-                                <p class="text-sm text-white font-bold">${req.days}${req.type === 'Overtime (OT)' ? ' hrs' : ' days'}</p>
-                            </td>
-                            <td class="p-5">
-                                <span class="inline-flex items-center gap-1.5 border px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${statSt}">
-                                    ${statIcon} ${req.status}
-                                </span>
-                            </td>
-                            <td class="p-5 text-right flex justify-end gap-2 items-center h-[80px]" onclick="event.stopPropagation();">
-                                ${actions}
-                            </td>
-                        </tr>
-                    `;
-                    tbody.innerHTML += row;
-                });
+                return;
             }
+
+            emptyState.classList.add('hidden');
+            emptyState.classList.remove('flex');
+            requests.forEach(req => {
+                tbody.innerHTML += buildRequestRow(req);
+            });
+        }
+
+        function buildRequestRow(req) {
+            const st = styleMap[req.color] || styleMap.blue;
+            const statSt = statusStyleMap[req.status];
+            const statIcon = statusIconMap[req.status];
+            const typeIcon = req.typeIcon || req.icon || 'fa-calendar-day';
             
-            updateStats();
+            const actions = req.status === 'Pending'
+                ? `
+                    <button onclick="openReviewModal(${req.id})" class="px-4 py-2 rounded-xl bg-brand-accent/20 hover:bg-brand-accent text-brand-accent hover:text-brand-dark transition-all shadow-inner font-bold text-[11px] uppercase tracking-wider flex items-center gap-2">
+                        Review <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                `
+                : `
+                    <button onclick="openReviewModal(${req.id})" class="text-gray-400 hover:text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors border border-white/10 bg-white/5" title="View Details">
+                        <i class="fa-solid fa-eye text-[12px]"></i>
+                    </button>
+                `;
+
+            return `
+                <tr class="hover:bg-white/5 transition-colors group cursor-pointer" onclick="openReviewModal(${req.id})">
+                    <td class="p-5">
+                        <div class="flex items-center gap-3">
+                            <img src="${req.empAvatar}" class="w-10 h-10 rounded-full border-2 border-white/10 bg-white/5">
+                            <div class="truncate">
+                                <p class="text-sm font-bold text-white truncate">${req.empName}</p>
+                                <p class="text-[11px] text-gray-500 mt-0.5 truncate uppercase tracking-widest font-semibold">${req.dept}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="p-5">
+                        <div class="flex flex-col">
+                            <p class="text-sm font-bold text-white truncate group-hover:text-brand-accent transition-colors flex items-center gap-2">
+                                <i class="fa-solid ${typeIcon} ${st.iconText} text-xs"></i> ${req.type}
+                            </p>
+                            <p class="text-[11px] text-gray-400 mt-1 truncate">${req.reason}</p>
+                        </div>
+                    </td>
+                    <td class="p-5">
+                        <p class="text-sm text-gray-300 font-medium whitespace-nowrap">${req.dateStr}</p>
+                    </td>
+                    <td class="p-5">
+                        <p class="text-sm text-white font-bold">${req.days}${req.type === 'Overtime (OT)' ? ' hrs' : ' days'}</p>
+                    </td>
+                    <td class="p-5">
+                        <span class="inline-flex items-center gap-1.5 border px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${statSt}">
+                            ${statIcon} ${req.status}
+                        </span>
+                    </td>
+                    <td class="p-5 text-right flex justify-end gap-2 items-center h-[80px]" onclick="event.stopPropagation();">
+                        ${actions}
+                    </td>
+                </tr>
+            `;
         }
         
         function updateTime() {
