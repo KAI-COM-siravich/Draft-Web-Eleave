@@ -191,27 +191,51 @@ body.light-theme #cp-logo-badge {
     color: #ffffff !important;
 }
 
+/* --- Flatpickr Light Mode (Shadcn Style) --- */
 body.light-theme .flatpickr-calendar {
     background: #ffffff !important;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
-    border: 1px solid rgba(0,0,0,0.1) !important;
+    border: 1px solid #e2e8f0 !important; /* สีขอบเทาอ่อน */
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+}
+body.light-theme .flatpickr-months .flatpickr-month,
+body.light-theme .flatpickr-current-month {
+    color: #0f172a !important;
+    fill: #0f172a !important;
+}
+body.light-theme .flatpickr-current-month input.cur-year {
+    color: #0f172a !important; /* แก้เลขปีให้เป็นสีดำ */
+}
+body.light-theme .flatpickr-prev-month, 
+body.light-theme .flatpickr-next-month {
+    color: #0f172a !important; /* แก้สีลูกศร */
+    border-color: #e2e8f0 !important;
+}
+body.light-theme .flatpickr-prev-month:hover, 
+body.light-theme .flatpickr-next-month:hover {
+    background: #f1f5f9 !important; /* พื้นหลังลูกศรตอน Hover */
+    color: #0f172a !important;
+}
+body.light-theme span.flatpickr-weekday {
+    color: #64748b !important; /* สีชื่อวัน จ.-อา. */
 }
 body.light-theme .flatpickr-day {
-    color: #1f2937 !important;
+    color: #0f172a !important;
+}
+body.light-theme .flatpickr-day:hover {
+    background: #f1f5f9 !important; /* สีพื้นหลังตอน Hover วันที่ */
+    color: #0f172a !important;
 }
 body.light-theme .flatpickr-day.selected {
-    background: #0284c7 !important;
+    background: #0284c7 !important; /* สีแบรนด์ตอนเลือกวันที่ */
     color: #ffffff !important;
 }
-body.light-theme .flatpickr-months .flatpickr-month {
-    color: #1f2937 !important;
-    fill: #1f2937 !important;
+body.light-theme .flatpickr-day.today {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
 }
-body.light-theme .flatpickr-current-month select {
-    color: #1f2937 !important;
-}
-body.light-theme .flatpickr-weekday {
-    color: #4b5563 !important;
+body.light-theme .flatpickr-day.prevMonthDay, 
+body.light-theme .flatpickr-day.nextMonthDay {
+    color: #94a3b8 !important; /* สีของวันที่เดือนก่อน/หน้าให้จางลง */
 }
 body.light-theme .bg-brand-dark\\\\/60 {
     background-color: rgba(255, 255, 255, 0.6) !important;
@@ -219,6 +243,54 @@ body.light-theme .bg-brand-dark\\\\/60 {
 }
 body.light-theme .border-brand-accent {
     border-color: #0284c7 !important;
+}/* 1. แก้ปัญหา Custom Dropdown ที่ยังเป็นสีมืด */
+body.light-theme .custom-options {
+    background: #ffffff !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+}
+body.light-theme .custom-option {
+    color: #1f2937 !important;
+}
+body.light-theme .custom-option:hover, 
+body.light-theme .custom-option.selected {
+    background: rgba(0, 0, 0, 0.05) !important;
+    color: #0284c7 !important;
+}
+
+/* 2. บังคับ Specificity ให้ Input และ Custom Select ชนะคลาส .glass */
+body.light-theme input.glass, 
+body.light-theme select.glass, 
+body.light-theme textarea.glass,
+body.light-theme .custom-select.glass {
+    background-color: #ffffff !important;
+    border-color: rgba(0, 0, 0, 0.15) !important;
+    color: #111827 !important;
+}
+/* สไตล์สำหรับช่องที่ถูก Disabled (View/Edit Modal) */
+body.light-theme input:disabled, 
+body.light-theme textarea:disabled,
+body.light-theme .custom-select.disabled {
+    background-color: #f3f4f6 !important;
+    color: #6b7280 !important;
+    cursor: not-allowed !important;
+}
+
+/* 3. แก้กล่อง Icon Datepicker ที่ Hardcode สี bg-[#0a1254] เอาไว้ */
+body.light-theme .bg-\\[\\#0a1254\\] {
+    background-color: #f3f4f6 !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+}
+body.light-theme .bg-\\[\\#0a1254\\] i {
+    color: #0284c7 !important; /* เปลี่ยนสีไอคอนปฏิทินให้เข้ากับธีมสว่าง */
+}
+
+/* 4. แก้กรอบ Radio Button และเส้นประล้อมรอบ Attachments ให้มองเห็นชัดขึ้น */
+body.light-theme .border-white\\/30 {
+    border-color: rgba(0, 0, 0, 0.3) !important;
+}
+body.light-theme .border-dashed {
+    border-color: rgba(0, 0, 0, 0.25) !important;
 }
 \`;
 document.head.appendChild(style);
