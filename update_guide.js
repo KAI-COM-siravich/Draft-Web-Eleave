@@ -167,6 +167,29 @@ const newGuideContent = `        <!-- Accordion List -->
                 </div>
             </div>
 
+            <!-- Item 7: Overtime (OT) -->
+            <div class="glass rounded-2xl overflow-hidden glass-hover guide-item">
+                <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between p-6 text-left focus:outline-none group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-brand-accent/20 flex items-center justify-center text-brand-accent">
+                            <i class="fa-solid fa-business-time"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-brand-accent transition-colors guide-title">Overtime (OT) Request & Approval</h3>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-gray-500 transition-transform duration-300 chevron"></i>
+                </button>
+                <div class="accordion-content bg-black/20 border-t border-white/5">
+                    <div class="p-6 pt-4 text-gray-300 text-sm leading-relaxed">
+                        <p class="mb-3">The <strong>Overtime (OT)</strong> module manages requests and calculations for extra hours worked:</p>
+                        <ul class="list-disc pl-5 space-y-2 text-brand-accent/90 font-medium">
+                            <li><span class="text-gray-300 font-normal"><strong>Requesting OT:</strong> Employees can submit hours worked outside normal shift hours. Select date, time range, and outline tasks accomplished.</span></li>
+                            <li><span class="text-gray-300 font-normal"><strong>Compensatory Leave:</strong> Approved overtime hours can be accumulated and automatically converted into Compensatory Time Off (Time Off in Lieu) quota.</span></li>
+                            <li><span class="text-gray-300 font-normal"><strong>Manager Review:</strong> Team leads approve OT hours, which factor into payroll calculations or system leave quotas.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
         </div>`;
 
 content = content.replace(/<!-- Accordion List -->[\s\S]*?(?=<div class="mt-12 text-center">)/, newGuideContent + '\n\n        ');

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Leave - E-Leave</title>
+    <title>My Overtime - E-Leave</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -357,8 +357,8 @@
         <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-6">
             <div class="flex items-center gap-4">
                 <div>
-                    <h2 class="text-brand-accent font-bold tracking-widest text-sm uppercase mb-2">Leave Dashboard</h2>
-                    <h1 class="text-5xl md:text-6xl font-black text-white drop-shadow-lg">My Balances</h1>
+                    <h2 class="text-brand-accent font-bold tracking-widest text-sm uppercase mb-2">Overtime Dashboard</h2>
+                    <h1 class="text-5xl md:text-6xl font-black text-white drop-shadow-lg">My Overtime</h1>
                 </div>
                 <button onclick="toggleDashboard()" class="w-10 h-10 mt-4 rounded-xl bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors border border-white/10" title="Toggle Dashboard">
                     <i id="dashboard-toggle-icon" class="fa-solid fa-chevron-up"></i>
@@ -367,82 +367,68 @@
             
             <button onclick="openModal('create')" class="glass px-8 py-4 rounded-2xl flex items-center justify-center gap-3 glass-hover bg-gradient-to-r from-brand-accent/20 to-brand-secondary/20 border-brand-accent/30 hover:border-brand-accent shadow-[0_0_20px_rgba(0,210,255,0.2)] hover:shadow-[0_0_30px_rgba(0,210,255,0.4)] transition-all transform hover:scale-105">
                 <i class="fa-solid fa-plus text-brand-accent text-xl"></i>
-                <span class="text-white font-bold text-lg tracking-wide">Create Request</span>
+                <span class="text-white font-bold text-lg tracking-wide">Request OT</span>
             </button>
         </div>
 
         <!-- Leave Balances Cards -->
         <div id="dashboard-cards" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 overflow-hidden transition-all duration-500 max-h-[1000px] opacity-100">
-            
-            <!-- Annual Leave -->
+            <!-- Pending OT Hours -->
             <div class="glass p-6 rounded-3xl relative overflow-hidden group">
-                <div class="absolute -right-10 -top-10 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/20 transition-all"></div>
+                <div class="absolute -right-10 -top-10 w-32 h-32 bg-yellow-500/10 rounded-full blur-2xl group-hover:bg-yellow-500/20 transition-all"></div>
                 <div class="flex justify-between items-start mb-4">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-400">
-                            <i class="fa-solid fa-plane-departure"></i>
+                        <div class="w-10 h-10 rounded-xl bg-yellow-500/20 flex items-center justify-center text-yellow-400">
+                            <i class="fa-regular fa-clock"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-white">Annual Leave</h3>
+                        <h3 class="text-lg font-bold text-white">Pending OT</h3>
                     </div>
-                    <span class="text-2xl font-black text-white" id="annual-fraction">8<span class="text-sm font-medium text-gray-400"> / 15</span></span>
+                    <span class="text-2xl font-black text-white" id="pending-ot-hrs">0<span class="text-sm font-medium text-gray-400"> hrs</span></span>
                 </div>
                 <div class="mt-4">
-                    <div class="flex justify-between text-xs text-gray-400 mb-2 font-medium">
-                        <span id="annual-used-txt">Used: 8 days</span>
-                        <span class="text-purple-400" id="annual-left-txt">7 days left</span>
-                    </div>
-                    <div class="progress-bar-bg">
-                        <div class="progress-bar-fill bg-gradient-to-r from-purple-600 to-purple-400" id="annual-bar" style="width: 53%;"></div>
-                    </div>
+                    <p class="text-xs text-gray-400 font-medium">Awaiting manager review</p>
                 </div>
             </div>
 
-            <!-- Sick Leave -->
+            <!-- Approved OT Hours -->
             <div class="glass p-6 rounded-3xl relative overflow-hidden group">
                 <div class="absolute -right-10 -top-10 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all"></div>
                 <div class="flex justify-between items-start mb-4">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400">
-                            <i class="fa-solid fa-notes-medical"></i>
+                            <i class="fa-solid fa-check-double"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-white">Sick Leave</h3>
+                        <h3 class="text-lg font-bold text-white">Approved OT</h3>
                     </div>
-                    <span class="text-2xl font-black text-white" id="sick-fraction">3<span class="text-sm font-medium text-gray-400"> / 30</span></span>
+                    <span class="text-2xl font-black text-white" id="approved-ot-hrs">0<span class="text-sm font-medium text-gray-400"> hrs</span></span>
                 </div>
                 <div class="mt-4">
-                    <div class="flex justify-between text-xs text-gray-400 mb-2 font-medium">
-                        <span id="sick-used-txt">Used: 3 days</span>
-                        <span class="text-emerald-400" id="sick-left-txt">27 days left</span>
-                    </div>
-                    <div class="progress-bar-bg">
-                        <div class="progress-bar-fill bg-gradient-to-r from-emerald-600 to-emerald-400" id="sick-bar" style="width: 10%;"></div>
-                    </div>
+                    <p class="text-xs text-gray-400 font-medium">Ready to convert to leave</p>
                 </div>
             </div>
 
-            <!-- Personal Leave -->
+            <!-- Compensatory Balance -->
             <div class="glass p-6 rounded-3xl relative overflow-hidden group">
-                <div class="absolute -right-10 -top-10 w-32 h-32 bg-orange-500/10 rounded-full blur-2xl group-hover:bg-orange-500/20 transition-all"></div>
+                <div class="absolute -right-10 -top-10 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-all"></div>
                 <div class="flex justify-between items-start mb-4">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center text-orange-400">
-                            <i class="fa-solid fa-user-clock"></i>
+                        <div class="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400">
+                            <i class="fa-solid fa-business-time"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-white">Personal Leave</h3>
+                        <h3 class="text-lg font-bold text-white">Comp Balance</h3>
                     </div>
-                    <span class="text-2xl font-black text-white" id="personal-fraction">1<span class="text-sm font-medium text-gray-400"> / 6</span></span>
+                    <span class="text-2xl font-black text-white" id="comp-balance-fraction">0<span class="text-sm font-medium text-gray-400"> hrs</span></span>
                 </div>
                 <div class="mt-4">
                     <div class="flex justify-between text-xs text-gray-400 mb-2 font-medium">
-                        <span id="personal-used-txt">Used: 1 days</span>
-                        <span class="text-orange-400" id="personal-left-txt">5 days left</span>
+                        <span id="comp-earned-txt">Balance: 0 hrs</span>
+                        <span class="text-blue-400">Convertible to off-days</span>
                     </div>
                     <div class="progress-bar-bg">
-                        <div class="progress-bar-fill bg-gradient-to-r from-orange-600 to-orange-400" id="personal-bar" style="width: 16%;"></div>
+                        <div class="progress-bar-fill bg-gradient-to-r from-blue-600 to-blue-400" id="comp-bar" style="width: 0%;"></div>
                     </div>
                 </div>
             </div>
-
         </div>
 
         <!-- Recent Requests Section -->
@@ -479,18 +465,11 @@
                     </div>
                     
                     <!-- Type Filter -->
-                    <div class="relative custom-select-wrapper">
-                        <div class="custom-select w-full glass text-sm font-normal text-gray-200 py-3 pl-4 pr-10 rounded-xl outline-none focus:ring-2 focus:ring-brand-accent/50 transition-all cursor-pointer border border-white/10 hover:bg-white/5 shadow-sm">
-                            <span class="selected-display truncate block">All Types</span>
-                            <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-[12px] opacity-70 transition-transform duration-300"></i>
+                    <div class="relative custom-select-wrapper pointer-events-none opacity-50">
+                        <div class="custom-select w-full glass text-sm font-normal text-gray-200 py-3 pl-4 pr-10 rounded-xl outline-none border border-white/5 bg-white/5">
+                            <span class="selected-display truncate block">Overtime (OT)</span>
                         </div>
-                        <input type="hidden" id="filterType" value="All" onchange="renderTable()">
-                        <div class="custom-options">
-                            <div class="custom-option selected" data-value="All">All Types</div>
-                            <div class="custom-option" data-value="Annual Leave">Annual Leave</div>
-                            <div class="custom-option" data-value="Sick Leave">Sick Leave</div>
-                            <div class="custom-option" data-value="Personal Leave">Personal Leave</div>
-                        </div>
+                        <input type="hidden" id="filterType" value="Overtime (OT)">
                     </div>
                     
                     <!-- Status Filter -->
@@ -517,9 +496,9 @@
                     <table class="w-full text-left border-collapse min-w-[700px]">
                         <thead>
                             <tr class="bg-white/5 border-b border-white/5">
-                                <th class="p-5 text-xs font-bold text-gray-400 uppercase tracking-wider w-[35%]">Leave Type</th>
-                                <th class="p-5 text-xs font-bold text-gray-400 uppercase tracking-wider">Duration</th>
-                                <th class="p-5 text-xs font-bold text-gray-400 uppercase tracking-wider w-[10%]">Days</th>
+                                <th class="p-5 text-xs font-bold text-gray-400 uppercase tracking-wider w-[35%]">OT Request</th>
+                                <th class="p-5 text-xs font-bold text-gray-400 uppercase tracking-wider">Date / Time</th>
+                                <th class="p-5 text-xs font-bold text-gray-400 uppercase tracking-wider w-[10%]">Hours</th>
                                 <th class="p-5 text-xs font-bold text-gray-400 uppercase tracking-wider w-[15%]">Status</th>
                                 <th class="p-5 text-xs font-bold text-gray-400 uppercase tracking-wider text-right w-[15%]">Action</th>
                             </tr>
@@ -565,7 +544,7 @@
             localStorage.setItem('eleave_requests_v3', JSON.stringify(defaultRequests));
         }
 
-        const requestsData = JSON.parse(localStorage.getItem('eleave_requests_v3')).filter(r => r.empName === 'John Doe' && r.type !== 'Overtime (OT)');
+        const requestsData = JSON.parse(localStorage.getItem('eleave_requests_v3')).filter(r => r.empName === 'John Doe' && r.type === 'Overtime (OT)');
 
         const styleMap = {
             'emerald': { iconBg: 'bg-emerald-500/20', iconText: 'text-emerald-400' },
@@ -745,39 +724,25 @@
             if (timeEl) timeEl.textContent = timeStr;
         }
         
-        function calculateQuotaCards() {
+                function calculateQuotaCards() {
             const allReqs = JSON.parse(localStorage.getItem('eleave_requests_v3')) || defaultRequests;
-            const johnReqs = allReqs.filter(r => r.empName === 'John Doe' && r.status === 'Approved');
+            const johnReqs = allReqs.filter(r => r.empName === 'John Doe');
 
-            let annualUsed = 0;
-            let sickUsed = 0;
-            let personalUsed = 0;
+            let pendingOT = 0;
+            let approvedOT = 0;
 
             johnReqs.forEach(r => {
-                if (r.type === 'Annual Leave') annualUsed += parseFloat(r.days);
-                else if (r.type === 'Sick Leave') sickUsed += parseFloat(r.days);
-                else if (r.type === 'Personal Leave') personalUsed += parseFloat(r.days);
+                if (r.type === 'Overtime (OT)') {
+                    if (r.status === 'Pending') pendingOT += parseFloat(r.days);
+                    else if (r.status === 'Approved') approvedOT += parseFloat(r.days);
+                }
             });
 
-            // Update Annual Card
-            document.getElementById('annual-fraction').innerHTML = `${annualUsed}<span class="text-sm font-medium text-gray-400"> / 15</span>`;
-            document.getElementById('annual-used-txt').textContent = `Used: ${annualUsed} days`;
-            document.getElementById('annual-left-txt').textContent = `${15 - annualUsed} days left`;
-            document.getElementById('annual-bar').style.width = `${(annualUsed / 15 * 100)}%`;
-
-            // Update Sick Card
-            document.getElementById('sick-fraction').innerHTML = `${sickUsed}<span class="text-sm font-medium text-gray-400"> / 30</span>`;
-            document.getElementById('sick-used-txt').textContent = `Used: ${sickUsed} days`;
-            document.getElementById('sick-left-txt').textContent = `${30 - sickUsed} days left`;
-            document.getElementById('sick-bar').style.width = `${(sickUsed / 30 * 100)}%`;
-
-            // Update Personal Card
-            document.getElementById('personal-fraction').innerHTML = `${personalUsed}<span class="text-sm font-medium text-gray-400"> / 6</span>`;
-            document.getElementById('personal-used-txt').textContent = `Used: ${personalUsed} days`;
-            document.getElementById('personal-left-txt').textContent = `${6 - personalUsed} days left`;
-            document.getElementById('personal-bar').style.width = `${(personalUsed / 6 * 100)}%`;
-
-
+            document.getElementById('pending-ot-hrs').innerHTML = `${pendingOT}<span class="text-sm font-medium text-gray-400"> hrs</span>`;
+            document.getElementById('approved-ot-hrs').innerHTML = `${approvedOT}<span class="text-sm font-medium text-gray-400"> hrs</span>`;
+            document.getElementById('comp-balance-fraction').innerHTML = `${approvedOT}<span class="text-sm font-medium text-gray-400"> hrs</span>`;
+            document.getElementById('comp-earned-txt').textContent = `Balance: ${approvedOT} hrs`;
+            document.getElementById('comp-bar').style.width = `${Math.min(100, (approvedOT / 24 * 100))}%`;
         }
 
         // Init
@@ -903,9 +868,9 @@
         
         if (action === 'create') {
             container.classList.remove('max-w-md');
-            container.classList.add('max-w-4xl'); // 4xl is better for 2 columns
+            container.classList.add('max-w-4xl'); 
             
-            title.innerHTML = 'Create Leave Request';
+            title.innerHTML = 'Create OT Request';
             body.innerHTML = `
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Role -->
@@ -920,21 +885,10 @@
                         <p class="text-white font-medium text-sm">Engineer</p>
                     </div>
 
-                    <!-- Leave Type -->
-                    <div class="flex flex-col gap-1.5">
-                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1"><span class="text-red-500">*</span> Leave Type</label>
-                        <div class="relative custom-select-wrapper z-[100]">
-                            <div class="custom-select w-full glass text-sm font-normal text-gray-200 py-3 px-4 rounded-xl outline-none focus:ring-2 focus:ring-brand-accent/50 transition-all border border-white/10 bg-transparent cursor-pointer relative">
-                                <span class="selected-display truncate block text-gray-400">Select Leave Type</span>
-                                <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-[12px] opacity-70 transition-transform duration-300"></i>
-                            </div>
-                            <input type="hidden" id="modalLeaveType" value="">
-                            <div class="custom-options">
-                                <div class="custom-option" data-value="Annual Leave">Annual Leave</div>
-                                <div class="custom-option" data-value="Sick Leave">Sick Leave</div>
-                                <div class="custom-option" data-value="Personal Leave">Personal Leave</div>
-                            </div>
-                        </div>
+                    <!-- Request Type (OT Only) -->
+                    <div class="flex flex-col gap-1.5 opacity-50 cursor-not-allowed">
+                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Request Type</label>
+                        <input type="text" id="modalLeaveType" readonly value="Overtime (OT)" class="w-full glass text-sm font-bold text-white py-3 px-4 rounded-xl border border-white/5 bg-white/5 cursor-not-allowed">
                     </div>
 
                     <!-- Manager's Email -->
@@ -943,62 +897,33 @@
                         <p class="text-white font-medium text-sm">Netcube AutoSync</p>
                     </div>
 
-                    <!-- Duration Radios -->
-                    <div class="flex flex-col gap-3 md:col-span-2 mt-2">
-                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1"><span class="text-red-500">*</span> Duration</label>
-                        <div class="flex items-center gap-6">
-                            <label class="flex items-center gap-2 cursor-pointer group">
-                                <input type="radio" name="duration" value="All Day" class="hidden peer duration-radio" checked onchange="calculateLeaveDays()">
-                                <div class="w-4 h-4 rounded-full border border-white/30 flex items-center justify-center group-hover:border-brand-accent peer-checked:border-brand-accent transition-colors relative">
-                                    <div class="w-2 h-2 rounded-full bg-brand-accent opacity-0 peer-checked:opacity-100 transition-opacity absolute inset-0 m-auto"></div>
-                                </div>
-                                <span class="text-sm text-gray-200 group-hover:text-white peer-checked:text-white transition-colors font-medium">All Day</span>
-                            </label>
-                            
-                            <label class="flex items-center gap-2 cursor-pointer group">
-                                <input type="radio" name="duration" value="Morning" class="hidden peer duration-radio" onchange="calculateLeaveDays()">
-                                <div class="w-4 h-4 rounded-full border border-white/30 flex items-center justify-center group-hover:border-brand-accent peer-checked:border-brand-accent transition-colors relative">
-                                    <div class="w-2 h-2 rounded-full bg-brand-accent opacity-0 peer-checked:opacity-100 transition-opacity absolute inset-0 m-auto"></div>
-                                </div>
-                                <span class="text-sm text-gray-200 group-hover:text-white peer-checked:text-white transition-colors font-medium">Morning</span>
-                            </label>
-                            
-                            <label class="flex items-center gap-2 cursor-pointer group">
-                                <input type="radio" name="duration" value="Afternoon" class="hidden peer duration-radio" onchange="calculateLeaveDays()">
-                                <div class="w-4 h-4 rounded-full border border-white/30 flex items-center justify-center group-hover:border-brand-accent peer-checked:border-brand-accent transition-colors relative">
-                                    <div class="w-2 h-2 rounded-full bg-brand-accent opacity-0 peer-checked:opacity-100 transition-opacity absolute inset-0 m-auto"></div>
-                                </div>
-                                <span class="text-sm text-gray-200 group-hover:text-white peer-checked:text-white transition-colors font-medium">Afternoon</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Start Date -->
+                    <!-- OT Date -->
                     <div class="flex flex-col gap-1.5 mt-2">
-                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1"><span class="text-red-500">*</span> Leave Start Date</label>
+                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1"><span class="text-red-500">*</span> OT Date</label>
                         <div class="relative">
-                            <input type="text" id="leaveStartDate" placeholder="Pls Select" class="w-full glass text-sm font-normal text-gray-200 py-3 pl-4 pr-10 rounded-xl outline-none focus:ring-2 focus:ring-brand-accent/50 transition-all border border-white/10 bg-transparent placeholder-gray-500 date-picker-modal cursor-pointer">
-                            <div class="absolute right-3 top-1/2 -translate-y-1/2 bg-[#0a1254] border border-brand-accent/30 rounded-md p-1.5 pointer-events-none">
-                                <i class="fa-solid fa-calendar-day text-brand-accent text-[12px]"></i>
+                            <input type="text" id="leaveStartDate" placeholder="Pick a date" class="w-full glass text-sm font-normal text-gray-200 py-3 pl-4 pr-10 rounded-xl outline-none focus:ring-2 focus:ring-brand-accent/50 transition-all date-picker-modal cursor-pointer border border-white/10 hover:bg-white/5 shadow-sm">
+                            <div class="absolute right-3 top-1/2 -translate-y-1/2 bg-[#0a1254] border border-white/10 rounded-md p-1.5 pointer-events-none">
+                                <i class="fa-solid fa-calendar-day text-gray-400 text-[12px]"></i>
                             </div>
                         </div>
                     </div>
 
-                    <!-- End Date -->
-                    <div class="flex flex-col gap-1.5 mt-2">
-                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1"><span class="text-red-500">*</span> Leave End Date</label>
-                        <div class="relative">
-                            <input type="text" id="leaveEndDate" placeholder="Pls Select" class="w-full glass text-sm font-normal text-gray-200 py-3 pl-4 pr-10 rounded-xl outline-none focus:ring-2 focus:ring-brand-accent/50 transition-all border border-white/10 bg-transparent placeholder-gray-500 date-picker-modal cursor-pointer">
-                            <div class="absolute right-3 top-1/2 -translate-y-1/2 bg-[#0a1254] border border-brand-accent/30 rounded-md p-1.5 pointer-events-none">
-                                <i class="fa-solid fa-calendar-day text-brand-accent text-[12px]"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Number Of Leave Days -->
+                    <!-- Total OT Hours -->
                     <div class="flex flex-col gap-1.5">
-                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1"><span class="text-red-500">*</span> Number Of Leave Days</label>
-                        <input type="number" step="0.5" id="leaveDaysNum" value="0" readonly class="w-full glass text-sm font-bold text-white py-3 px-4 rounded-xl outline-none border border-white/5 bg-white/5 cursor-not-allowed">
+                        <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1"><span class="text-red-500">*</span> Total OT Hours</label>
+                        <input type="text" id="leaveDaysNum" readonly value="3.0" class="w-full glass text-sm font-bold text-brand-accent py-3 px-4 rounded-xl outline-none border border-white/5 bg-white/5 cursor-not-allowed">
+                    </div>
+
+                    <!-- OT Start/End Times -->
+                    <div class="grid grid-cols-2 gap-4 md:col-span-2 mt-2">
+                        <div class="flex flex-col gap-1.5">
+                            <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1"><span class="text-red-500">*</span> OT Start Time</label>
+                            <input type="time" id="otStartTime" value="18:00" onchange="calculateOTHours()" class="w-full glass text-sm font-normal text-gray-200 py-3 px-4 rounded-xl outline-none border border-white/10 bg-[#0a1254] select-none">
+                        </div>
+                        <div class="flex flex-col gap-1.5">
+                            <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1"><span class="text-red-500">*</span> OT End Time</label>
+                            <input type="time" id="otEndTime" value="21:00" onchange="calculateOTHours()" class="w-full glass text-sm font-normal text-gray-200 py-3 px-4 rounded-xl outline-none border border-white/10 bg-[#0a1254] select-none">
+                        </div>
                     </div>
 
                     <div class="hidden md:block"></div>
@@ -1029,6 +954,22 @@
             
             setTimeout(() => {
                 if(window.initCustomSelects) window.initCustomSelects(document.getElementById('modalContainer'));
+
+                window.calculateOTHours = function() {
+                    const sInput = document.getElementById('otStartTime');
+                    const eInput = document.getElementById('otEndTime');
+                    const hInput = document.getElementById('leaveDaysNum');
+                    if (!sInput || !eInput || !hInput) return;
+                    const sVal = sInput.value;
+                    const eVal = eInput.value;
+                    if (!sVal || !eVal) { hInput.value = "0"; return; }
+                    const [sH, sM] = sVal.split(':').map(Number);
+                    const [eH, eM] = eVal.split(':').map(Number);
+                    let diff = (eH * 60 + eM) - (sH * 60 + sM);
+                    if (diff < 0) diff += 24 * 60;
+                    hInput.value = (diff / 60).toFixed(1);
+                };
+                calculateOTHours();
 
 
                 
@@ -1288,37 +1229,27 @@
         btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...';
         btn.disabled = true;
 
-        const type = document.getElementById('modalLeaveType').value;
         const reason = document.querySelector('#modalBody textarea')?.value || '';
-        const startStr = document.getElementById('leaveStartDate').value;
-        const endStr = document.getElementById('leaveEndDate').value;
+        const date = document.getElementById('leaveStartDate').value;
+        const startTime = document.getElementById('otStartTime').value;
+        const endTime = document.getElementById('otEndTime').value;
         
-        const startDate = startStr ? new Date(startStr).toISOString().split('T')[0] : '';
-        const endDate = endStr ? new Date(endStr).toISOString().split('T')[0] : '';
-        const dateStr = startStr === endStr ? startStr : `${startStr} - ${endStr}`;
+        const startDate = date ? new Date(date).toISOString().split('T')[0] : '';
+        const endDate = startDate;
+        const dateStr = `${date} (${startTime} - ${endTime})`;
         const days = parseFloat(document.getElementById('leaveDaysNum').value) || 0;
-        
-        let icon = 'fa-plane-departure';
-        let color = 'purple';
-        if (type === 'Sick Leave') {
-            icon = 'fa-notes-medical';
-            color = 'emerald';
-        } else if (type === 'Personal Leave') {
-            icon = 'fa-user-clock';
-            color = 'orange';
-        }
 
         const newReq = {
             id: Date.now(),
-            type: type || 'Annual Leave',
+            type: 'Overtime (OT)',
             reason: reason || 'N/A',
             startDate: startDate || '2026-06-29',
             endDate: endDate || '2026-06-29',
             dateStr: dateStr || '29 Jun 2026',
             days: days,
             status: 'Pending',
-            icon: icon,
-            color: color,
+            icon: 'fa-business-time',
+            color: 'blue',
             empName: 'John Doe',
             dept: 'Engineer',
             empAvatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=John&backgroundColor=b6e3f4',

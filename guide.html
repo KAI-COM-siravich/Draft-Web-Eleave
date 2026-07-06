@@ -138,7 +138,7 @@
             <input type="text" id="searchGuide" onkeyup="filterGuide()" class="w-full glass text-white placeholder-gray-400 text-base rounded-2xl focus:ring-2 focus:ring-brand-accent/50 outline-none pl-14 p-4 transition-all" placeholder="Search for a topic or question...">
         </div>
 
-                                <!-- Accordion List -->
+                                        <!-- Accordion List -->
         <div class="flex flex-col gap-4" id="guideList">
             
             <!-- Item 1: Home Dashboard -->
@@ -297,6 +297,29 @@
                         <ul class="list-disc pl-5 space-y-2 text-blue-400/90 font-medium">
                             <li><span class="text-gray-300 font-normal"><strong>Core Settings:</strong> Configure Leave Types, Organization Structure, and Working Hours.</span></li>
                             <li><span class="text-gray-300 font-normal"><strong>Admin Tools:</strong> Manage advanced features like Integrations, Security policies, and view System Logs (restricted to Admins only).</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 7: Overtime (OT) -->
+            <div class="glass rounded-2xl overflow-hidden glass-hover guide-item">
+                <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between p-6 text-left focus:outline-none group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-brand-accent/20 flex items-center justify-center text-brand-accent">
+                            <i class="fa-solid fa-business-time"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-brand-accent transition-colors guide-title">Overtime (OT) Request & Approval</h3>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-gray-500 transition-transform duration-300 chevron"></i>
+                </button>
+                <div class="accordion-content bg-black/20 border-t border-white/5">
+                    <div class="p-6 pt-4 text-gray-300 text-sm leading-relaxed">
+                        <p class="mb-3">The <strong>Overtime (OT)</strong> module manages requests and calculations for extra hours worked:</p>
+                        <ul class="list-disc pl-5 space-y-2 text-brand-accent/90 font-medium">
+                            <li><span class="text-gray-300 font-normal"><strong>Requesting OT:</strong> Employees can submit hours worked outside normal shift hours. Select date, time range, and outline tasks accomplished.</span></li>
+                            <li><span class="text-gray-300 font-normal"><strong>Compensatory Leave:</strong> Approved overtime hours can be accumulated and automatically converted into Compensatory Time Off (Time Off in Lieu) quota.</span></li>
+                            <li><span class="text-gray-300 font-normal"><strong>Manager Review:</strong> Team leads approve OT hours, which factor into payroll calculations or system leave quotas.</span></li>
                         </ul>
                     </div>
                 </div>
