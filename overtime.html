@@ -9,9 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Sarabun:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <!-- Flatpickr CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
     <script>
         tailwind.config = {
             theme: {
@@ -333,6 +331,119 @@
         .custom-options::-webkit-scrollbar-thumb:hover {
             background: #475569;
         }
+
+        /* ========================================================
+           ✨ LIGHT MODE OVERRIDES (DATEPICKER & FORMS) ✨
+        ======================================================== */
+        /* 1. Flatpickr (Datepicker) */
+        body.light-theme .flatpickr-calendar {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+        }
+        body.light-theme .flatpickr-months .flatpickr-month,
+        body.light-theme .flatpickr-current-month,
+        body.light-theme .flatpickr-current-month .cur-month {
+            color: #0f172a !important;
+            fill: #0f172a !important;
+        }
+        body.light-theme .flatpickr-current-month input.cur-year {
+            color: #0f172a !important;
+        }
+        body.light-theme .flatpickr-prev-month, 
+        body.light-theme .flatpickr-next-month {
+            color: #0f172a !important;
+            border-color: #e2e8f0 !important;
+        }
+        body.light-theme .flatpickr-prev-month svg, 
+        body.light-theme .flatpickr-next-month svg {
+            stroke: #0f172a !important;
+        }
+        body.light-theme .flatpickr-prev-month:hover, 
+        body.light-theme .flatpickr-next-month:hover {
+            background: #f1f5f9 !important;
+            color: #0f172a !important;
+        }
+        body.light-theme span.flatpickr-weekday {
+            color: #64748b !important;
+        }
+        body.light-theme .flatpickr-day {
+            color: #0f172a !important;
+            background: transparent !important;
+        }
+        body.light-theme .flatpickr-day:hover {
+            background: #f1f5f9 !important;
+            color: #0f172a !important;
+        }
+        body.light-theme .flatpickr-day.selected,
+        body.light-theme .flatpickr-day.startRange,
+        body.light-theme .flatpickr-day.endRange,
+        body.light-theme .flatpickr-day.selected:focus,
+        body.light-theme .flatpickr-day.selected:hover {
+            background: #0284c7 !important;
+            color: #ffffff !important;
+            border: none !important;
+        }
+        body.light-theme .flatpickr-day.today {
+            background: #e2e8f0 !important;
+            color: #0f172a !important;
+            border: none !important;
+        }
+        body.light-theme .flatpickr-day.prevMonthDay, 
+        body.light-theme .flatpickr-day.nextMonthDay {
+            color: #94a3b8 !important;
+        }
+
+        /* 2. Custom Dropdown */
+        body.light-theme .custom-options {
+            background: #ffffff !important;
+            border-color: rgba(0, 0, 0, 0.1) !important;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+        }
+        body.light-theme .custom-option {
+            color: #1f2937 !important;
+        }
+        body.light-theme .custom-option:hover, 
+        body.light-theme .custom-option.selected {
+            background: rgba(0, 0, 0, 0.05) !important;
+            color: #0284c7 !important;
+        }
+
+        /* 3. Inputs, Textareas & Time Inputs */
+        body.light-theme input.glass, 
+        body.light-theme select.glass, 
+        body.light-theme textarea.glass,
+        body.light-theme input[type="time"],
+        body.light-theme .custom-select.glass {
+            background-color: #ffffff !important;
+            border-color: rgba(0, 0, 0, 0.15) !important;
+            color: #111827 !important;
+            color-scheme: light; /* Forces the time picker icon to adapt to light mode */
+        }
+        body.light-theme input:disabled, 
+        body.light-theme textarea:disabled,
+        body.light-theme .custom-select.disabled,
+        body.light-theme .custom-select.disabled .glass {
+            background-color: #f3f4f6 !important;
+            color: #6b7280 !important;
+            cursor: not-allowed !important;
+            border-color: rgba(0,0,0,0.05) !important;
+        }
+        
+        /* 4. Modal Specific Elements */
+        body.light-theme .bg-\[\#0a1254\] {
+            background-color: #f3f4f6 !important;
+            border-color: rgba(0, 0, 0, 0.1) !important;
+        }
+        body.light-theme .bg-\[\#0a1254\] i {
+            color: #0284c7 !important;
+        }
+        body.light-theme .border-white\/30 {
+            border-color: rgba(0, 0, 0, 0.3) !important;
+        }
+        body.light-theme .border-dashed {
+            border-color: rgba(0, 0, 0, 0.25) !important;
+        }
     </style>
 </head>
 <body class="w-screen min-h-screen flex flex-col relative antialiased">
@@ -353,7 +464,6 @@
 
     <main class="flex-1 w-full max-w-7xl mx-auto px-6 pb-12 z-10 flex flex-col">
         
-        <!-- Header & Action -->
         <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-6">
             <div class="flex items-center gap-4">
                 <div>
@@ -371,9 +481,7 @@
             </button>
         </div>
 
-        <!-- Leave Balances Cards -->
         <div id="dashboard-cards" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 overflow-hidden transition-all duration-500 max-h-[1000px] opacity-100">
-            <!-- Pending OT Hours -->
             <div class="glass p-6 rounded-3xl relative overflow-hidden group">
                 <div class="absolute -right-10 -top-10 w-32 h-32 bg-yellow-500/10 rounded-full blur-2xl group-hover:bg-yellow-500/20 transition-all"></div>
                 <div class="flex justify-between items-start mb-4">
@@ -390,7 +498,6 @@
                 </div>
             </div>
 
-            <!-- Approved OT Hours -->
             <div class="glass p-6 rounded-3xl relative overflow-hidden group">
                 <div class="absolute -right-10 -top-10 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all"></div>
                 <div class="flex justify-between items-start mb-4">
@@ -407,7 +514,6 @@
                 </div>
             </div>
 
-            <!-- Compensatory Balance -->
             <div class="glass p-6 rounded-3xl relative overflow-hidden group">
                 <div class="absolute -right-10 -top-10 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-all"></div>
                 <div class="flex justify-between items-start mb-4">
@@ -431,9 +537,7 @@
             </div>
         </div>
 
-        <!-- Recent Requests Section -->
         <div>
-            <!-- Filters Section -->
             <div class="flex flex-col gap-4 mb-6 border-b border-white/5 pb-6">
                 <div class="flex justify-between items-end mb-2">
                     <div class="flex items-center gap-3">
@@ -446,25 +550,21 @@
                 
                 <div id="filters-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 w-full overflow-visible transition-all duration-500 max-h-[500px] opacity-100">
                     
-                    <!-- Search input -->
                     <div class="relative lg:col-span-1">
                         <input type="text" id="filterSearch" onkeyup="renderTable()" placeholder="Search description..." class="w-full glass text-xs font-semibold text-gray-300 py-3 px-4 rounded-xl outline-none focus:ring-2 focus:ring-brand-accent/50 transition-all placeholder:text-gray-500">
                         <i class="fa-solid fa-search text-brand-accent text-[12px] absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none"></i>
                     </div>
 
-                    <!-- Date From -->
                     <div class="relative">
                         <input type="text" id="filterDateFrom" onchange="renderTable()" placeholder="Pick a date" class="w-full glass text-sm font-normal text-gray-200 py-3 pl-4 pr-10 rounded-xl outline-none focus:ring-2 focus:ring-brand-accent/50 transition-all date-picker cursor-pointer border border-white/10 hover:bg-white/5 shadow-sm">
                         <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-[12px] z-10 opacity-70"></i>
                     </div>
 
-                    <!-- Date To -->
                     <div class="relative">
                         <input type="text" id="filterDateTo" onchange="renderTable()" placeholder="Pick a date" class="w-full glass text-sm font-normal text-gray-200 py-3 pl-4 pr-10 rounded-xl outline-none focus:ring-2 focus:ring-brand-accent/50 transition-all date-picker cursor-pointer border border-white/10 hover:bg-white/5 shadow-sm">
                         <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-[12px] z-10 opacity-70"></i>
                     </div>
                     
-                    <!-- Type Filter -->
                     <div class="relative custom-select-wrapper pointer-events-none opacity-50">
                         <div class="custom-select w-full glass text-sm font-normal text-gray-200 py-3 pl-4 pr-10 rounded-xl outline-none border border-white/5 bg-white/5">
                             <span class="selected-display truncate block">Overtime (OT)</span>
@@ -472,7 +572,6 @@
                         <input type="hidden" id="filterType" value="Overtime (OT)">
                     </div>
                     
-                    <!-- Status Filter -->
                     <div class="relative custom-select-wrapper">
                         <div class="custom-select w-full glass text-sm font-normal text-gray-200 py-3 pl-4 pr-10 rounded-xl outline-none focus:ring-2 focus:ring-brand-accent/50 transition-all cursor-pointer border border-white/10 hover:bg-white/5 shadow-sm">
                             <span class="selected-display truncate block">All Status</span>
@@ -490,7 +589,6 @@
                 </div>
             </div>
             
-            <!-- Table Container (Glass) -->
             <div class="glass rounded-3xl overflow-hidden border border-white/10">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse min-w-[700px]">
@@ -504,12 +602,10 @@
                             </tr>
                         </thead>
                         <tbody id="requests-tbody" class="divide-y divide-white/5">
-                            <!-- Rendered by JS -->
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
                 
-                <!-- Empty State (Hidden by default) -->
                 <div id="empty-state" class="hidden flex-col items-center justify-center py-16 text-center">
                     <div class="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center text-gray-500 mb-5 border border-white/10 shadow-inner">
                         <i class="fa-solid fa-magnifying-glass text-3xl"></i>
@@ -752,7 +848,6 @@
         renderTable();
     </script>
     
-    <!-- Flatpickr & Custom Select JS -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -828,9 +923,7 @@
         });
     </script>
 
-    <!-- Modal Overlay -->
     <div id="modalOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
-        <!-- Modal Content -->
         <div id="modalContainer" class="bg-[#0a1254]/95 border border-white/10 glass rounded-3xl p-6 md:p-8 max-w-md w-full transform scale-95 opacity-0 transition-all duration-300 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.7)] relative overflow-hidden">
             <div class="absolute -right-20 -top-20 w-48 h-48 bg-brand-accent/20 rounded-full blur-3xl pointer-events-none"></div>
             <div class="absolute -left-20 -bottom-20 w-48 h-48 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
@@ -844,12 +937,10 @@
                 </div>
                 
                 <div id="modalBody" class="text-gray-300 text-sm mb-8">
-                    <!-- Dynamic Content -->
-                </div>
+                    </div>
                 
                 <div id="modalActions" class="flex justify-end gap-3 mt-6 pt-6 border-t border-white/10">
-                    <!-- Dynamic Buttons -->
-                </div>
+                    </div>
             </div>
         </div>
     </div>
@@ -873,31 +964,26 @@
             title.innerHTML = 'Create OT Request';
             body.innerHTML = `
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Role -->
                     <div class="flex flex-col gap-1.5">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Role</label>
                         <p class="text-white font-medium text-sm">Developer Engineer</p>
                     </div>
                     
-                    <!-- Department -->
                     <div class="flex flex-col gap-1.5">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Department</label>
                         <p class="text-white font-medium text-sm">Engineer</p>
                     </div>
 
-                    <!-- Request Type (OT Only) -->
                     <div class="flex flex-col gap-1.5 opacity-50 cursor-not-allowed">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Request Type</label>
                         <input type="text" id="modalLeaveType" readonly value="Overtime (OT)" class="w-full glass text-sm font-bold text-white py-3 px-4 rounded-xl border border-white/5 bg-white/5 cursor-not-allowed">
                     </div>
 
-                    <!-- Manager's Email -->
                     <div class="flex flex-col gap-1.5">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Manager's Email</label>
                         <p class="text-white font-medium text-sm">Netcube AutoSync</p>
                     </div>
 
-                    <!-- OT Date -->
                     <div class="flex flex-col gap-1.5 mt-2">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1"><span class="text-red-500">*</span> OT Date</label>
                         <div class="relative">
@@ -908,13 +994,11 @@
                         </div>
                     </div>
 
-                    <!-- Total OT Hours -->
                     <div class="flex flex-col gap-1.5">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1"><span class="text-red-500">*</span> Total OT Hours</label>
                         <input type="text" id="leaveDaysNum" readonly value="3.0" class="w-full glass text-sm font-bold text-brand-accent py-3 px-4 rounded-xl outline-none border border-white/5 bg-white/5 cursor-not-allowed">
                     </div>
 
-                    <!-- OT Start/End Times -->
                     <div class="grid grid-cols-2 gap-4 md:col-span-2 mt-2">
                         <div class="flex flex-col gap-1.5">
                             <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1"><span class="text-red-500">*</span> OT Start Time</label>
@@ -928,13 +1012,11 @@
 
                     <div class="hidden md:block"></div>
 
-                    <!-- Reason -->
                     <div class="flex flex-col gap-1.5 md:col-span-1">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1"><span class="text-red-500">*</span> Reason</label>
                         <textarea rows="4" class="w-full h-full glass text-sm font-normal text-gray-200 py-3 px-4 rounded-xl outline-none focus:ring-2 focus:ring-brand-accent/50 transition-all border border-white/10 bg-transparent resize-none"></textarea>
                     </div>
 
-                    <!-- Attachments -->
                     <div class="flex flex-col gap-1.5 md:col-span-1">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Attachments</label>
                         <div class="w-full h-full min-h-[104px] glass rounded-xl border border-white/10 border-dashed flex flex-col items-center justify-center p-4 text-center cursor-pointer hover:bg-white/5 transition-colors">
@@ -993,19 +1075,16 @@
             title.innerHTML = 'Edit Leave Request';
             body.innerHTML = `
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Role -->
                     <div class="flex flex-col gap-1.5">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Role</label>
                         <p class="text-white font-medium text-sm">Developer Engineer</p>
                     </div>
                     
-                    <!-- Department -->
                     <div class="flex flex-col gap-1.5">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Department</label>
                         <p class="text-white font-medium text-sm">Engineer</p>
                     </div>
 
-                    <!-- Leave Type -->
                     <div class="flex flex-col gap-1.5">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1"><span class="text-red-500">*</span> Leave Type</label>
                         <div class="relative custom-select-wrapper disabled z-[100]">
@@ -1017,13 +1096,11 @@
                         </div>
                     </div>
 
-                    <!-- Manager's Email -->
                     <div class="flex flex-col gap-1.5">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Manager's Email</label>
                         <p class="text-white font-medium text-sm">Netcube AutoSync</p>
                     </div>
 
-                    <!-- Duration Radios -->
                     <div class="flex flex-col gap-3 md:col-span-2 mt-2">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1"><span class="text-red-500">*</span> Duration</label>
                         <div class="flex items-center gap-6">
@@ -1037,7 +1114,6 @@
                         </div>
                     </div>
 
-                    <!-- Start Date -->
                     <div class="flex flex-col gap-1.5 mt-2">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1"><span class="text-red-500">*</span> Leave Start Date</label>
                         <div class="relative">
@@ -1048,7 +1124,6 @@
                         </div>
                     </div>
 
-                    <!-- End Date -->
                     <div class="flex flex-col gap-1.5 mt-2">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1"><span class="text-red-500">*</span> Leave End Date</label>
                         <div class="relative">
@@ -1059,7 +1134,6 @@
                         </div>
                     </div>
 
-                    <!-- Number Of Leave Days -->
                     <div class="flex flex-col gap-1.5">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1"><span class="text-red-500">*</span> Number Of Leave Days</label>
                         <input type="text" value="${req.days}" disabled class="w-full glass text-sm font-bold text-gray-500 py-3 px-4 rounded-xl outline-none border border-white/5 bg-white/5 cursor-not-allowed">
@@ -1067,13 +1141,11 @@
 
                     <div class="hidden md:block"></div>
 
-                    <!-- Reason -->
                     <div class="flex flex-col gap-1.5 md:col-span-1">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1"><span class="text-red-500">*</span> Reason</label>
                         <textarea rows="4" class="w-full h-full glass text-sm font-normal text-gray-200 py-3 px-4 rounded-xl outline-none focus:ring-2 focus:ring-brand-accent/50 transition-all border border-white/10 bg-transparent resize-none">${req.reason}</textarea>
                     </div>
 
-                    <!-- Attachments -->
                     <div class="flex flex-col gap-1.5 md:col-span-1">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Attachments</label>
                         <div class="w-full h-full min-h-[104px] glass rounded-xl border border-white/10 border-dashed flex flex-col items-center justify-center p-4 text-center cursor-pointer hover:bg-white/5 transition-colors">
@@ -1096,19 +1168,16 @@
             title.innerHTML = 'Leave Details';
             body.innerHTML = `
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Role -->
                     <div class="flex flex-col gap-1.5">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Role</label>
                         <p class="text-white font-medium text-sm">Developer Engineer</p>
                     </div>
                     
-                    <!-- Department -->
                     <div class="flex flex-col gap-1.5">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Department</label>
                         <p class="text-white font-medium text-sm">Engineer</p>
                     </div>
 
-                    <!-- Leave Type -->
                     <div class="flex flex-col gap-1.5">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Leave Type</label>
                         <div class="relative custom-select-wrapper disabled z-[100]">
@@ -1118,13 +1187,11 @@
                         </div>
                     </div>
 
-                    <!-- Manager's Email -->
                     <div class="flex flex-col gap-1.5">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Manager's Email</label>
                         <p class="text-white font-medium text-sm">Netcube AutoSync</p>
                     </div>
 
-                    <!-- Status -->
                     <div class="flex flex-col gap-1.5 md:col-span-2 mt-2">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Status</label>
                         <div>
@@ -1134,7 +1201,6 @@
                         </div>
                     </div>
 
-                    <!-- Start Date -->
                     <div class="flex flex-col gap-1.5 mt-2">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Leave Start Date</label>
                         <div class="relative">
@@ -1145,7 +1211,6 @@
                         </div>
                     </div>
 
-                    <!-- End Date -->
                     <div class="flex flex-col gap-1.5 mt-2">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Leave End Date</label>
                         <div class="relative">
@@ -1156,7 +1221,6 @@
                         </div>
                     </div>
 
-                    <!-- Number Of Leave Days -->
                     <div class="flex flex-col gap-1.5">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Number Of Leave Days</label>
                         <input type="text" value="${req.days}" disabled class="w-full glass text-sm font-bold text-gray-400 py-3 px-4 rounded-xl outline-none border border-white/5 bg-white/5 cursor-not-allowed">
@@ -1164,13 +1228,11 @@
 
                     <div class="hidden md:block"></div>
 
-                    <!-- Reason -->
                     <div class="flex flex-col gap-1.5 md:col-span-1">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Reason</label>
                         <textarea rows="4" disabled class="w-full h-full glass text-sm font-normal text-gray-400 py-3 px-4 rounded-xl outline-none border border-white/5 bg-white/5 resize-none cursor-not-allowed">${req.reason}</textarea>
                     </div>
 
-                    <!-- Attachments -->
                     <div class="flex flex-col gap-1.5 md:col-span-1">
                         <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Attachments</label>
                         <div class="w-full h-full min-h-[104px] glass rounded-xl border border-white/5 border-dashed flex flex-col items-center justify-center p-4 text-center cursor-not-allowed bg-white/5">
@@ -1359,7 +1421,6 @@
     </script>
 
 
-    <!-- Global Toggle Clear Script -->
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         // 1. Radio Buttons Toggle
